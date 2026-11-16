@@ -195,3 +195,13 @@ dialog.lightbox::backdrop { background: rgba(2,5,12,.82); backdrop-filter: blur(
 }
 
 .map-frame:not(.zoomed) .pdot { display: none; }
+
+/* Visionneuse : une seule photo / vidéo */
+dialog.lightbox.single { width: auto; max-width: 96vw; max-height: 96vh; }
+.lb-single { padding: 12px 12px 0; display: flex; justify-content: center; }
+.lb-single img, .lb-single video { display: block; max-width: calc(96vw - 24px); max-height: calc(96vh - 150px); width: auto; height: auto; border-radius: 12px; background: #000; object-fit: contain; }
+.lb-caption { margin: 0; padding: 12px 22px 18px; font-size: 14px; line-height: 1.5; color: var(--soft); }
+.lb-caption span { font-family: var(--hud); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.lb-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.lb-open .play { position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%; background: rgba(7,11,23,.7); border: 2px solid #fff; }
+.lb-open .play::after { content: ""; position: absolute; left: 21px; top: 15px; border-left: 16px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }

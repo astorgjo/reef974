@@ -119,7 +119,7 @@ function renderMarkers() {
       d.className = 'pdot';
       d.setAttribute('aria-label', `${p.video ? 'Vidéo' : 'Photo'} : ${p.species || s.name}`);
       d.innerHTML = `${p.video ? '<span class="pvid" aria-hidden="true"></span>' : ''}<span class="pthumb" aria-hidden="true">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}</span>`;
-      d.addEventListener('click', (e) => { e.stopPropagation(); state.selected = s.id; renderCard(); openLightbox(s, p); });
+      d.addEventListener('click', (e) => { e.stopPropagation(); state.selected = s.id; renderCard(); openViewer(s, p); });
       const offset = hasPos ? [0, 0] : [Math.round(Math.cos(ang) * 46), Math.round(Math.sin(ang) * 46)];
       photoMarkers.push(new maplibregl.Marker({ element: d, offset }).setLngLat(hasPos ? [p.lon, p.lat] : [s.lon, s.lat]).addTo(map));
     });
@@ -149,20 +149,38 @@ function renderCard() {
   $('#open-photos').addEventListener('click', () => openLightbox(s));
 }
 
-function openLightbox(s, first) {
+function openLightbox(s) {
   const dlg = $('#lightbox');
-  let photos = (s.photos || []).filter((p) => p.image || p.video);
-  if (first) photos = [first, ...photos.filter((p) => p !== first)];
+  const photos = (s.photos || []).filter((p) => p.image || p.video);
+  dlg.classList.remove('single');
   $('#lb-title').textContent = s.name;
   $('#lb-body').innerHTML = photos.length
-    ? `<div class="lb-grid">${photos.map((p) => `
-        <figure>${p.video
-          ? `<video src="${esc(p.video)}" ${p.image ? `poster="${esc(p.image)}"` : ''} controls playsinline preload="none" aria-label="Vidéo : ${esc(p.species || s.name)}"></video>`
-          : `<img src="${esc(p.image)}" alt="${esc(p.species || s.name)}" loading="lazy">`}
-          <figcaption><b>${esc(p.species || '')}</b>${[p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ')}${p.caption ? `<span>${esc(p.caption)}</span>` : ''}</figcaption>
+    ? `<div class="lb-grid">${photos.map((p, i) => `
+        <figure><button type="button" class="lb-open" data-i="${i}" aria-label="Agrandir : ${esc(p.species || s.name)}">
+          ${p.video && !p.image ? `<video src="${esc(p.video)}" muted playsinline preload="metadata"></video>` : `<img src="${esc(p.image)}" alt="" loading="lazy">`}
+          ${p.video ? '<span class="play" aria-hidden="true"></span>' : ''}
+        </button>
+        <figcaption><b>${esc(p.species || '')}</b>${[p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ')}</figcaption>
         </figure>`).join('')}</div>`
     : `<p class="lb-empty">Les photos de ce spot arrivent bientôt.</p>`;
-  dlg.showModal();
+  $('#lb-body').querySelectorAll('.lb-open').forEach((b) => b.addEventListener('click', () => openViewer(s, photos[Number(b.dataset.i)])));
+  if (!dlg.open) dlg.showModal();
+}
+
+/* Une seule photo ou vidéo, en grand */
+function openViewer(s, p) {
+  const dlg = $('#lightbox');
+  dlg.classList.add('single');
+  $('#lb-title').textContent = p.species || s.name;
+  const meta = [s.name, p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ');
+  $('#lb-body').innerHTML = `
+    <div class="lb-single">
+      ${p.video
+        ? `<video src="${esc(p.video)}" ${p.image ? `poster="${esc(p.image)}"` : ''} controls autoplay muted playsinline loop aria-label="Vidéo : ${esc(p.species || s.name)}"></video>`
+        : `<img src="${esc(p.image)}" alt="${esc(p.species || s.name)}">`}
+    </div>
+    <p class="lb-caption"><span>${meta}</span>${p.caption ? `<br>${esc(p.caption)}` : ''}</p>`;
+  if (!dlg.open) dlg.showModal();
 }
 
 let missionTip = null;
