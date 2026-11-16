@@ -63,8 +63,11 @@ async function load() {
   state.spots = spots.filter((s) => typeof s.lat === 'number' && typeof s.lon === 'number');
   state.missions = missions;
   state.site = site;
-  state.selected = state.spots[0]?.id;
+  const want = new URLSearchParams(location.search).get('spot');
+  const wanted = state.spots.find((s) => s.id === want);
+  state.selected = (wanted || state.spots[0])?.id;
   initMap();
+  if (wanted) map.once('load', () => map.flyTo({ center: [wanted.lon, wanted.lat], zoom: PHOTO_ZOOM + 2, duration: 2000 }));
   renderFilters();
   renderMarkers();
   renderCard();

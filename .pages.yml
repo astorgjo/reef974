@@ -75,6 +75,38 @@ content:
             label: Longitude du point photo (facultatif)
             type: number
 
+  - name: especes
+    label: Espèces (bestiaire)
+    type: file
+    path: data/especes.json
+    format: json
+    list: true
+    fields:
+      - name: name
+        label: Nom (doit correspondre au champ « Espèce » des photos)
+        type: string
+      - name: aliases
+        label: Autres noms acceptés
+        type: string
+        list: true
+      - name: shape
+        label: Dessin
+        type: select
+        options:
+          values: [raie, platax, papillon, baliste, clown, ballon, murene, requin, trompette, poulpe, chirurgien, tortue, poisson]
+      - name: family
+        label: Famille
+        type: string
+      - name: body
+        label: Couleur du corps (ex. #4b5a78)
+        type: string
+      - name: accent
+        label: Couleur des motifs
+        type: string
+      - name: note
+        label: Petite note
+        type: text
+
   - name: missions
     label: Missions (road trips)
     type: file

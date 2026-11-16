@@ -61,6 +61,30 @@
         "caption": "Vidéo : passage au-dessus des patates de corail.",
         "lat": -21.266803,
         "lon": 55.332508
+      },
+      {
+        "image": "/images/spots/poisson-flute-2026-11-14.jpg",
+        "species": "Poisson-flûte",
+        "date": "2026-11-14",
+        "caption": "Deux poissons-flûtes au-dessus des patates de corail."
+      },
+      {
+        "image": "/images/spots/baliste-2026-11-14.jpg",
+        "species": "Baliste à identifier",
+        "date": "2026-11-14",
+        "caption": "Robe grise rayée, nageoires et queue orange."
+      },
+      {
+        "image": "/images/spots/demoiselles-2026-11-14-a.jpg",
+        "species": "Demoiselle à trois bandes",
+        "date": "2026-11-14",
+        "caption": "Demoiselles et chromis bleu-vert cachés dans le corail branchu."
+      },
+      {
+        "image": "/images/spots/demoiselles-2026-11-14-b.jpg",
+        "species": "Demoiselle à trois bandes",
+        "date": "2026-11-14",
+        "caption": "Le même corail branchu, vu de plus près."
       }
     ]
   },

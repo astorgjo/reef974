@@ -221,3 +221,26 @@ dialog.lightbox.single { width: auto; max-width: 96vw; max-height: 96vh; }
 .lb-dots { display: flex; justify-content: center; gap: 6px; padding-top: 12px; }
 .lb-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.25); }
 .lb-dots span.on { background: var(--accent); }
+
+/* ---------- Bestiaire ---------- */
+.bestiaire-hero .wrap { padding-top: 48px; padding-bottom: 40px; }
+.collection-bar { margin-top: 22px; width: min(520px, 100%); height: 10px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; border: 1px solid rgba(255,255,255,.12); }
+.collection-bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--photo)); box-shadow: 0 0 12px var(--accent); transition: width .6s; }
+.bestiaire { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.sp-card { position: relative; display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: #0d1326; border: 1px solid rgba(255,255,255,.1); }
+.sp-card.seen { border-color: rgba(79,195,255,.35); }
+.sp-art { position: relative; height: 170px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 60%, #0f3a55 0%, #0a2238 60%, #081a2c 100%); }
+.sp-card.locked .sp-art { background: radial-gradient(circle at 50% 60%, #121a30 0%, #0b1122 70%); }
+.sp-art svg { width: 82%; height: auto; filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); transition: transform .25s; }
+.sp-card.seen:hover .sp-art svg { transform: translateY(-4px) rotate(-2deg); }
+.sp-num { position: absolute; left: 12px; top: 10px; font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; color: var(--muted); }
+.sp-badge { position: absolute; right: 12px; top: 10px; font-family: var(--hud); font-weight: 700; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--photo); color: #03203a; }
+.sp-card.locked .sp-badge { background: rgba(255,255,255,.08); color: var(--muted); }
+.sp-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.sp-body h2 { font-size: 24px; }
+.sp-card.locked .sp-body h2 { color: #8792ad; }
+.sp-family { font-family: var(--hud); font-weight: 600; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
+.sp-body p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--soft); }
+.sp-meta { font-size: 13px; color: var(--muted); }
+.sp-actions { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 8px; }
+.sp-actions .btn, .sp-actions .btn-ghost { min-height: 42px; font-size: 14px; flex: 1 1 auto; justify-content: center; }

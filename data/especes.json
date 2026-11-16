@@ -1,0 +1,172 @@
+[
+  {
+    "name": "Raie aigle",
+    "aliases": [
+      "raie léopard",
+      "raie"
+    ],
+    "shape": "raie",
+    "family": "Raies",
+    "body": "#4b5a78",
+    "accent": "#cfd8ea",
+    "note": "Elle survole le fond du bassin en battant lentement des ailes."
+  },
+  {
+    "name": "Platax",
+    "aliases": [
+      "platax (poisson chauve-souris)",
+      "poisson chauve-souris"
+    ],
+    "shape": "platax",
+    "family": "Poissons de récif",
+    "body": "#c9b98e",
+    "accent": "#2a2a2e",
+    "note": "Se déplace souvent en petit banc, très curieux."
+  },
+  {
+    "name": "Poisson-flûte",
+    "aliases": [
+      "poisson flute",
+      "cornet",
+      "poisson-trompette"
+    ],
+    "shape": "trompette",
+    "family": "Poissons de récif",
+    "body": "#9aa88a",
+    "accent": "#2f3a2a",
+    "note": "Long et fin, il chasse en se fondant dans le décor."
+  },
+  {
+    "name": "Demoiselle à trois bandes",
+    "aliases": [
+      "demoiselle",
+      "dascyllus"
+    ],
+    "shape": "clown",
+    "family": "Poissons de récif",
+    "body": "#f2f4f8",
+    "accent": "#14161c",
+    "note": "Vit en petite bande dans le corail branchu."
+  },
+  {
+    "name": "Chromis bleu-vert",
+    "aliases": [
+      "chromis"
+    ],
+    "shape": "poisson",
+    "family": "Poissons de récif",
+    "body": "#7fe0d0",
+    "accent": "#3fb5a8",
+    "note": ""
+  },
+  {
+    "name": "Baliste à identifier",
+    "aliases": [],
+    "shape": "baliste",
+    "family": "Poissons de récif",
+    "body": "#6b7280",
+    "accent": "#ff9a3d",
+    "note": "Si tu connais son nom, mets-le dans l'outil Placer."
+  },
+  {
+    "name": "Idole des Maures",
+    "aliases": [
+      "idole"
+    ],
+    "shape": "papillon",
+    "family": "Poissons de récif",
+    "body": "#f7f3e6",
+    "accent": "#16181f",
+    "note": ""
+  },
+  {
+    "name": "Baliste Picasso",
+    "aliases": [
+      "baliste"
+    ],
+    "shape": "baliste",
+    "family": "Poissons de récif",
+    "body": "#e9dcc0",
+    "accent": "#3a3f4f",
+    "note": ""
+  },
+  {
+    "name": "Poisson-papillon",
+    "aliases": [
+      "papillon"
+    ],
+    "shape": "papillon",
+    "family": "Poissons de récif",
+    "body": "#ffd34d",
+    "accent": "#1d2433",
+    "note": ""
+  },
+  {
+    "name": "Poisson-clown",
+    "aliases": [
+      "clown"
+    ],
+    "shape": "clown",
+    "family": "Poissons de récif",
+    "body": "#ff8a3d",
+    "accent": "#ffffff",
+    "note": ""
+  },
+  {
+    "name": "Poisson-ballon",
+    "aliases": [
+      "ballon",
+      "poisson ballon"
+    ],
+    "shape": "ballon",
+    "family": "Poissons de récif",
+    "body": "#d8c27a",
+    "accent": "#5a4a2a",
+    "note": ""
+  },
+  {
+    "name": "Chirurgien bagnard",
+    "aliases": [
+      "chirurgien"
+    ],
+    "shape": "chirurgien",
+    "family": "Poissons de récif",
+    "body": "#e6f0f2",
+    "accent": "#1d2433",
+    "note": ""
+  },
+  {
+    "name": "Murène",
+    "aliases": [
+      "murene"
+    ],
+    "shape": "murene",
+    "family": "Murènes",
+    "body": "#8a7a3a",
+    "accent": "#f2e6b0",
+    "note": ""
+  },
+  {
+    "name": "Zourite",
+    "aliases": [
+      "poulpe",
+      "pieuvre"
+    ],
+    "shape": "poulpe",
+    "family": "Céphalopodes",
+    "body": "#c97a6a",
+    "accent": "#7a3a3a",
+    "note": "Le poulpe, « zourite » en créole."
+  },
+  {
+    "name": "Tortue verte",
+    "aliases": [
+      "tortue"
+    ],
+    "shape": "tortue",
+    "family": "Tortues",
+    "body": "#6b5a3a",
+    "accent": "#e9d9a8",
+    "note": ""
+  }
+]

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reef974 · Le bestiaire des espèces</title>
+<meta name="description" content="La carte interactive de Reef974 : photos de poissons, spots de snorkeling, bivouacs et road trips en van à La Réunion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="hud-bar">
+  <div class="wrap">
+    <a class="logo" href="./">REEF<span>974</span></a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="./#carte">Carte</a>
+      <a href="especes.html" class="on">Espèces</a>
+      <a href="./#missions">Missions</a>
+      <a href="./#van">Le van</a>
+    </nav>
+    <div class="hud-spacer"></div>
+    <div class="hud-stats">
+      <div class="stat"><small>Collection</small><b id="stat-collection" style="color: var(--accent)">–</b></div>
+      <a class="btn-ghost" data-instagram href="https://www.instagram.com/reef974">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        <span data-ig-name>@reef974</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero bestiaire-hero">
+    <div class="wrap" style="display:block">
+      <span class="eyebrow">Le bestiaire</span>
+      <h1 style="font-size:60px;margin:10px 0 12px"><span class="skew">Les espèces</span></h1>
+      <p class="lead" style="max-width:640px;margin:0;font-size:16px;line-height:1.55;color:var(--soft)">Toutes les espèces croisées sous l'eau à La Réunion. Celles que je n'ai pas encore photographiées restent à débloquer.</p>
+      <div class="collection-bar" aria-hidden="true"><span id="collection-fill"></span></div>
+      <div class="filters" id="sp-filters" role="group" aria-label="Filtrer les espèces" style="margin-top:22px">
+        <button type="button" class="chip" data-f="all" aria-pressed="true" style="--c: var(--accent)"><i></i>Toutes</button>
+        <button type="button" class="chip" data-f="seen" aria-pressed="false" style="--c: var(--photo)"><i></i>Découvertes</button>
+        <button type="button" class="chip" data-f="locked" aria-pressed="false" style="--c: #6d7a99"><i></i>À découvrir</button>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:40px">
+    <div class="wrap">
+      <div class="bestiaire" id="bestiaire"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">REEF<span>974</span></span>
+    <span>Photos sous-marines et road trips à La Réunion · L'Étang-Salé</span>
+    <span class="row" style="gap:16px"><a data-instagram href="https://www.instagram.com/reef974">Instagram <span data-ig-name>@reef974</span></a><a href="placer.html" style="color:#6d8794">Placer les points</a></span>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
+  <div class="lb-head">
+    <h2 id="lb-title"></h2>
+    <button type="button" class="btn-ghost" id="lb-close" aria-label="Fermer">Fermer</button>
+  </div>
+  <div id="lb-body"></div>
+</dialog>
+
+
+<script src="js/fish-art.js"></script>
+<script src="js/especes.js"></script>
+</body>
+</html>

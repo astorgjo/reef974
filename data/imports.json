@@ -1,0 +1,51 @@
+{
+  "source": "Images/Poisson",
+  "imported": [
+    {
+      "file": "IMG20261114112230.jpg",
+      "as": "platax-2026-11-14.jpg",
+      "note": "envoyée dans le chat"
+    },
+    {
+      "file": "IMG20261114110543.jpg",
+      "as": "raie-aigle-2026-11-14.jpg",
+      "note": "envoyée dans le chat"
+    },
+    {
+      "file": "VID20261114110622.mp4",
+      "as": "raie-aigle-2026-11-14.mp4",
+      "note": "envoyée dans le chat"
+    },
+    {
+      "file": "WhatsApp Video 2026-11-15 at 16.02.35.mp4",
+      "as": "raie-aigle-2026-11-15.mp4",
+      "note": "envoyée dans le chat"
+    },
+    {
+      "file": "IMG20261114105654.jpg",
+      "as": "poisson-flute-2026-11-14.jpg"
+    },
+    {
+      "file": "IMG20261114105916_01.jpg",
+      "as": "baliste-2026-11-14.jpg"
+    },
+    {
+      "file": "IMG20261114110254.jpg",
+      "as": "demoiselles-2026-11-14-a.jpg"
+    },
+    {
+      "file": "IMG20261114110259.jpg",
+      "as": "demoiselles-2026-11-14-b.jpg"
+    }
+  ],
+  "skipped": [
+    {
+      "file": "IMG20261114105329.jpg",
+      "reason": "miniature 298×224 px, trop petite"
+    },
+    {
+      "file": "IMG20261114105848_1.jpg",
+      "reason": "miniature 298×224 px, trop petite (idole des Maures)"
+    }
+  ]
+}
