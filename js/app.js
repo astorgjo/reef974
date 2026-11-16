@@ -88,6 +88,28 @@ function renderFilters() {
   }));
 }
 
+function distM(a, b) {
+  const R = 6371000, toR = Math.PI / 180;
+  const dLat = (b[1] - a[1]) * toR, dLon = (b[0] - a[0]) * toR;
+  const x = dLon * Math.cos(((a[1] + b[1]) / 2) * toR);
+  return Math.sqrt(x * x + dLat * dLat) * R;
+}
+
+function groupPhotos(s) {
+  const items = (s.photos || []).filter((p) => p.image || p.video);
+  const groups = [];
+  items.forEach((p) => {
+    const key = (p.species || '').trim().toLowerCase();
+    const pos = typeof p.lat === 'number' && typeof p.lon === 'number' ? [p.lon, p.lat] : null;
+    const g = key && groups.find((g) => g.key === key && ((!g.pos && !pos) || (g.pos && pos && distM(g.pos, pos) < 30)));
+    if (g) {
+      g.items.push(p);
+      if (pos) { g.pts.push(pos); g.pos = [g.pts.reduce((t, q) => t + q[0], 0) / g.pts.length, g.pts.reduce((t, q) => t + q[1], 0) / g.pts.length]; }
+    } else groups.push({ key: key || Symbol(), items: [p], pts: pos ? [pos] : [], pos });
+  });
+  return groups;
+}
+
 function renderMarkers() {
   spotMarkers.forEach((m) => m.remove());
   photoMarkers.forEach((m) => m.remove());
@@ -110,18 +132,21 @@ function renderMarkers() {
     spotMarkers.push(new maplibregl.Marker({ element: el }).setLngLat([s.lon, s.lat]).addTo(map));
     if (on) el.parentElement && (el.style.zIndex = 3);
 
-    const items = (s.photos || []).filter((p) => p.image || p.video);
-    items.forEach((p, i) => {
-      const hasPos = typeof p.lat === 'number' && typeof p.lon === 'number';
-      const ang = (i / Math.max(items.length, 1)) * Math.PI * 2 - Math.PI / 2;
+    // regroupe les photos d'une même espèce prises au même endroit (< 30 m)
+    const groups = groupPhotos(s);
+    groups.forEach((g, i) => {
+      const ang = (i / Math.max(groups.length, 1)) * Math.PI * 2 - Math.PI / 2;
+      const first = g.items[0];
       const d = document.createElement('button');
       d.type = 'button';
-      d.className = 'pdot';
-      d.setAttribute('aria-label', `${p.video ? 'Vidéo' : 'Photo'} : ${p.species || s.name}`);
-      d.innerHTML = `${p.video ? '<span class="pvid" aria-hidden="true"></span>' : ''}<span class="pthumb" aria-hidden="true">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}</span>`;
-      d.addEventListener('click', (e) => { e.stopPropagation(); state.selected = s.id; renderCard(); openViewer(s, p); });
-      const offset = hasPos ? [0, 0] : [Math.round(Math.cos(ang) * 46), Math.round(Math.sin(ang) * 46)];
-      photoMarkers.push(new maplibregl.Marker({ element: d, offset }).setLngLat(hasPos ? [p.lon, p.lat] : [s.lon, s.lat]).addTo(map));
+      d.className = 'pdot' + (g.items.length > 1 ? ' multi' : '');
+      const label = first.species || s.name;
+      d.setAttribute('aria-label', g.items.length > 1 ? `${label} : ${g.items.length} photos et vidéos` : `${first.video ? 'Vidéo' : 'Photo'} : ${label}`);
+      const thumb = g.items.find((p) => p.image);
+      d.innerHTML = `${g.items.some((p) => p.video) ? '<span class="pvid" aria-hidden="true"></span>' : ''}${g.items.length > 1 ? `<span class="pcount" aria-hidden="true">${g.items.length}</span>` : ''}<span class="pthumb" aria-hidden="true">${thumb ? `<img src="${esc(thumb.image)}" alt="" loading="lazy">` : ''}</span>`;
+      d.addEventListener('click', (e) => { e.stopPropagation(); state.selected = s.id; renderCard(); openViewer(s, g.items, 0); });
+      const offset = g.pos ? [0, 0] : [Math.round(Math.cos(ang) * 46), Math.round(Math.sin(ang) * 46)];
+      photoMarkers.push(new maplibregl.Marker({ element: d, offset }).setLngLat(g.pos || [s.lon, s.lat]).addTo(map));
     });
   });
   syncPhotoLayer();
@@ -163,15 +188,32 @@ function openLightbox(s) {
         <figcaption><b>${esc(p.species || '')}</b>${[p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ')}</figcaption>
         </figure>`).join('')}</div>`
     : `<p class="lb-empty">Les photos de ce spot arrivent bientôt.</p>`;
-  $('#lb-body').querySelectorAll('.lb-open').forEach((b) => b.addEventListener('click', () => openViewer(s, photos[Number(b.dataset.i)])));
+  $('#lb-body').querySelectorAll('.lb-open').forEach((b) => b.addEventListener('click', () => openViewer(s, photos, Number(b.dataset.i))));
   if (!dlg.open) dlg.showModal();
 }
 
-/* Une seule photo ou vidéo, en grand */
-function openViewer(s, p) {
+/* Visionneuse : une photo ou vidéo en grand, avec défilement dans le groupe */
+let viewer = null;
+function openViewer(s, list, index) {
+  if (!Array.isArray(list)) list = [list];
+  viewer = { s, list, index: index || 0 };
   const dlg = $('#lightbox');
   dlg.classList.add('single');
-  $('#lb-title').textContent = p.species || s.name;
+  drawViewer();
+  if (!dlg.open) dlg.showModal();
+}
+
+function stepViewer(d) {
+  if (!viewer || viewer.list.length < 2) return;
+  viewer.index = (viewer.index + d + viewer.list.length) % viewer.list.length;
+  drawViewer();
+}
+
+function drawViewer() {
+  const { s, list, index } = viewer;
+  const p = list[index];
+  const many = list.length > 1;
+  $('#lb-title').textContent = (p.species || s.name) + (many ? `  ·  ${index + 1} / ${list.length}` : '');
   const fmtDate = (d) => { try { return new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return d; } };
   const rows = [
     ['Espèce', p.species],
@@ -181,16 +223,40 @@ function openViewer(s, p) {
   ].filter(([, v]) => v);
   $('#lb-body').innerHTML = `
     <div class="lb-single">
+      ${many ? '<button type="button" class="lb-nav prev" aria-label="Photo précédente">‹</button>' : ''}
       ${p.video
         ? `<video src="${esc(p.video)}" ${p.image ? `poster="${esc(p.image)}"` : ''} controls autoplay muted playsinline loop aria-label="Vidéo : ${esc(p.species || s.name)}"></video>`
         : `<img src="${esc(p.image)}" alt="${esc(p.species || s.name)}">`}
+      ${many ? '<button type="button" class="lb-nav next" aria-label="Photo suivante">›</button>' : ''}
     </div>
+    ${many ? `<div class="lb-dots" aria-hidden="true">${list.map((_, i) => `<span class="${i === index ? 'on' : ''}"></span>`).join('')}</div>` : ''}
     <div class="lb-info">
       <dl>${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
       ${p.caption ? `<p>${esc(p.caption)}</p>` : ''}
     </div>`;
-  if (!dlg.open) dlg.showModal();
+  if (many) {
+    $('#lb-body .lb-nav.prev').addEventListener('click', () => stepViewer(-1));
+    $('#lb-body .lb-nav.next').addEventListener('click', () => stepViewer(1));
+  }
 }
+
+document.addEventListener('keydown', (e) => {
+  const dlg = document.getElementById('lightbox');
+  if (!dlg.open || !dlg.classList.contains('single')) return;
+  if (e.key === 'ArrowRight') stepViewer(1);
+  if (e.key === 'ArrowLeft') stepViewer(-1);
+});
+
+/* swipe sur mobile */
+(() => {
+  let x0 = null;
+  document.addEventListener('touchstart', (e) => { if (document.getElementById('lightbox').open) x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) stepViewer(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
 
 let missionTip = null;
 function renderMissionRoute(fit) {

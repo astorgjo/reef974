@@ -211,3 +211,13 @@ dialog.lightbox.single { width: auto; max-width: 96vw; max-height: 96vh; }
 .lb-info dt { font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
 .lb-info dd { margin: 0; font-size: 15px; font-weight: 600; color: var(--text); }
 .lb-info p { margin: 0; max-width: 70ch; font-size: 15px; line-height: 1.55; color: var(--soft); }
+.pdot .pcount { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; font: 800 11px/1 "Inter", sans-serif; color: #03203a; }
+.pdot.multi::after { inset: 4px; background: #fff; }
+.lb-single { position: relative; align-items: center; }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); background: rgba(7,11,23,.75); color: #fff; font: 400 34px/1 "Inter", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; padding-bottom: 4px; z-index: 2; }
+.lb-nav:hover { border-color: var(--accent); color: var(--accent); }
+.lb-nav.prev { left: 22px; }
+.lb-nav.next { right: 22px; }
+.lb-dots { display: flex; justify-content: center; gap: 6px; padding-top: 12px; }
+.lb-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.lb-dots span.on { background: var(--accent); }
