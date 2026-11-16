@@ -32,27 +32,35 @@
         "image": "/images/spots/platax-2026-11-14.jpg",
         "species": "Platax (poisson chauve-souris)",
         "date": "2026-11-14",
-        "caption": "Un banc de platax au-dessus du fond rocheux."
+        "caption": "Un banc de platax au-dessus du fond rocheux.",
+        "lat": -21.265988,
+        "lon": 55.332336
       },
       {
         "image": "/images/spots/raie-aigle-2026-11-14.jpg",
         "species": "Raie aigle",
         "date": "2026-11-14",
-        "caption": "Avec un baliste Picasso et un poisson-papillon en arrière-plan."
+        "caption": "Avec un baliste Picasso et un poisson-papillon en arrière-plan.",
+        "lat": -21.266798,
+        "lon": 55.332406
       },
       {
         "image": "/images/spots/raie-aigle-2026-11-14-poster.jpg",
         "video": "/images/spots/raie-aigle-2026-11-14.mp4",
         "species": "Raie aigle",
         "date": "2026-11-14",
-        "caption": "Vidéo : la raie aigle survole le fond."
+        "caption": "Vidéo : la raie aigle survole le fond.",
+        "lat": -21.266808,
+        "lon": 55.332438
       },
       {
         "image": "/images/spots/raie-aigle-2026-11-15-poster.jpg",
         "video": "/images/spots/raie-aigle-2026-11-15.mp4",
         "species": "Raie aigle",
         "date": "2026-11-15",
-        "caption": "Vidéo : passage au-dessus des patates de corail."
+        "caption": "Vidéo : passage au-dessus des patates de corail.",
+        "lat": -21.266803,
+        "lon": 55.332508
       }
     ]
   },
