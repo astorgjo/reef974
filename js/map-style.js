@@ -38,7 +38,9 @@ window.REEF_MAP = (function () {
         } },
         { id: 'wood', type: 'fill', source: 'omt', 'source-layer': 'landcover', filter: ['==', ['get', 'class'], 'wood'], paint: { 'fill-color': '#123a29', 'fill-opacity': 0.28 } },
         { id: 'urban', type: 'fill', source: 'omt', 'source-layer': 'landuse', filter: ['in', ['get', 'class'], ['literal', ['residential', 'suburb', 'neighbourhood', 'commercial', 'industrial']]], paint: { 'fill-color': '#26303f', 'fill-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.35, 15, 0.2] } },
-        { id: 'water', type: 'fill', source: 'omt', 'source-layer': 'water', paint: { 'fill-color': '#1b8fb0', 'fill-opacity': 0.12 } }
+        { id: 'water', type: 'fill', source: 'omt', 'source-layer': 'water', paint: {
+          'fill-color': ['interpolate', ['linear'], ['zoom'], 9, '#1b8fb0', 13, '#1fa9bd', 16, '#27c3c6'],
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.1, 12, 0.45, 15, 0.72] } }
       );
     }
 
