@@ -65,6 +65,12 @@ content:
           - name: caption
             label: Légende
             type: text
+          - name: lat
+            label: Latitude du point photo (facultatif, se règle avec l'outil Placer)
+            type: number
+          - name: lon
+            label: Longitude du point photo (facultatif)
+            type: number
 
   - name: missions
     label: Missions (road trips)

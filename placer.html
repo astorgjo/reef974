@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Reef974 · Placer les points</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { height: 100vh; overflow: hidden; }
+  .placer { display: flex; height: 100vh; }
+  .panel { width: 380px; flex: 0 0 380px; overflow: auto; background: #0a1022; border-right: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .panel h1 { font-size: 30px; }
+  .panel label { font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+  .panel select, .panel input { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: #0d1730; color: var(--text); font: 500 15px "Inter", sans-serif; }
+  .items { display: flex; flex-direction: column; gap: 8px; }
+  .item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.03); color: var(--text); text-align: left; cursor: pointer; font: 500 14px "Inter", sans-serif; }
+  .item[aria-pressed="true"] { border-color: var(--accent); background: rgba(30,227,207,.08); }
+  .item img, .item .ico { width: 64px; height: 48px; flex: 0 0 64px; border-radius: 8px; object-fit: cover; background: #12334f; display: flex; align-items: center; justify-content: center; }
+  .item small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .item .pos { margin-left: auto; font-family: var(--hud); font-weight: 700; font-size: 12px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+  .item .pos.ok { color: var(--accent); }
+  .help { margin: 0; font-size: 14px; line-height: 1.5; color: var(--soft); }
+  .status { font-size: 14px; line-height: 1.5; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,.05); }
+  .status.err { background: rgba(255,90,90,.12); color: #ffb3b3; }
+  .status.ok { background: rgba(30,227,207,.12); color: #a8fff3; }
+  .stage { position: relative; flex: 1; }
+  .stage #map { position: absolute; inset: 0; }
+  .stage .map-layers { left: 14px; top: 14px; position: absolute; }
+  .crosshair { cursor: crosshair; }
+  .pin { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: 4px solid #fff; box-shadow: 0 0 0 6px rgba(30,227,207,.35), 0 0 18px var(--accent); cursor: grab; }
+  .ghost { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.35); border: 2px solid rgba(255,255,255,.8); }
+  details summary { cursor: pointer; font-family: var(--hud); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--soft); }
+  @media (max-width: 800px) { .placer { flex-direction: column; } .panel { width: auto; flex: 0 0 auto; max-height: 48vh; } }
+</style>
+</head>
+<body>
+<div class="placer">
+  <aside class="panel">
+    <a class="logo" href="./">REEF<span>974</span></a>
+    <h1>Placer les points</h1>
+    <p class="help">Choisis un spot, puis l'élément à placer (le spot lui-même ou une de ses photos). Clique sur la carte à l'endroit exact : le point se pose, tu peux le faire glisser pour ajuster. Quand tout est bon, clique sur « Enregistrer ».</p>
+
+    <div>
+      <label for="spot-select">Spot</label>
+      <select id="spot-select"></select>
+    </div>
+    <div class="items" id="items" role="group" aria-label="Élément à placer"></div>
+
+    <button type="button" class="btn" id="save">Enregistrer sur le site</button>
+    <div class="status" id="status" role="status">Aucune modification pour l'instant.</div>
+
+    <details>
+      <summary>Réglage du compte GitHub</summary>
+      <p class="help">L'enregistrement a besoin d'un jeton GitHub (une seule fois). Sur GitHub : Settings › Developer settings › Fine-grained tokens › Generate new token. Repository access : <b>only reef974</b>. Permissions : <b>Contents : Read and write</b>. Colle-le ici : il reste uniquement dans ce navigateur.</p>
+      <label for="token">Jeton GitHub</label>
+      <input type="password" id="token" autocomplete="off" placeholder="github_pat_…">
+      <p class="help" style="margin-top:8px"><button type="button" class="btn-ghost" id="copy-json">Copier les données (plan B)</button></p>
+    </details>
+  </aside>
+
+  <div class="stage">
+    <div id="map"></div>
+    <div class="map-layers" role="group" aria-label="Fond de carte">
+      <button type="button" class="layer-btn" data-base="sat" aria-pressed="true">Satellite</button>
+      <button type="button" class="layer-btn" data-base="reef" aria-pressed="false">Carte Reef974</button>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/maplibre/maplibre-gl.js"></script>
+<script src="js/map-style.js"></script>
+<script src="js/placer.js"></script>
+</body>
+</html>

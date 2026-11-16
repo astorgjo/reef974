@@ -8,7 +8,9 @@ Photos sous-marines et road trips à La Réunion 🐠 : une carte interactive fa
 |---|---|
 | `index.html` | La page, avec la carte de l'île (SVG) |
 | `css/style.css` | Le style (couleurs dans `:root`) |
+| `js/map-style.js` | Le style de carte maison (couleurs, relief, typo) |
 | `js/app.js` | Repères, filtres, fiches, missions, galerie photo |
+| `placer.html` | Outil pour placer précisément les spots et les photos |
 | `data/spots.json` | Les spots (nom, type, coordonnées GPS, texte, photos) |
 | `data/missions.json` | Les road trips (liste d'identifiants de spots) |
 | `data/site.json` | Instagram + infos du van Don Pablo |

@@ -21,46 +21,40 @@ const svgIcon = (type, size = 18) =>
   `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[type] || ICONS.photo}</svg>`;
 
 const state = { spots: [], missions: [], site: {}, selected: null, hidden: new Set(), mission: 0 };
-const REUNION = [[-21.40, 55.20], [-20.86, 55.85]];
 const PHOTO_ZOOM = 14;
-let map, spotLayer, photoLayer, missionLayer;
+let map, spotMarkers = [], photoMarkers = [], is3D = true;
 
 function initMap() {
-  map = L.map('map', { zoomControl: false, minZoom: 9, maxZoom: 19, maxBounds: [[-21.9, 54.7], [-20.4, 56.4]], attributionControl: true, zoomSnap: 0.5 });
-  L.control.zoom({ position: 'topright', zoomInTitle: 'Zoomer', zoomOutTitle: 'Dézoomer' }).addTo(map);
-  const bases = {
-    sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagerie © Esri, Maxar, Earthstar Geographics'
-    }),
-    dark: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 19, maxNativeZoom: 16, attribution: 'Fond © Esri, HERE, Garmin, © OpenStreetMap'
-    })
-  };
-  const labels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 18, pane: 'overlayPane', opacity: .85 });
-  const darkLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 16, pane: 'overlayPane' });
-  let current = null;
-  const setBase = (k) => {
-    if (current) map.removeLayer(bases[current]);
-    current = k; bases[k].addTo(map);
-    if (k === 'sat') { labels.addTo(map); map.removeLayer(darkLabels); } else { darkLabels.addTo(map); map.removeLayer(labels); }
-    const el = document.getElementById('map');
-    el.classList.toggle('sat-base', k === 'sat'); el.classList.toggle('dark-base', k === 'dark');
-    document.querySelectorAll('.layer-btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layer === k)));
-  };
-  document.querySelectorAll('.layer-btn').forEach((b) => b.addEventListener('click', () => setBase(b.dataset.layer)));
-  setBase('sat');
-  map.fitBounds(REUNION);
-  missionLayer = L.layerGroup().addTo(map);
-  spotLayer = L.layerGroup().addTo(map);
-  photoLayer = L.layerGroup();
-  map.on('zoomend', syncPhotoLayer);
+  map = new maplibregl.Map({
+    container: 'map',
+    style: REEF_MAP.style(),
+    bounds: REEF_MAP.BOUNDS,
+    fitBoundsOptions: { padding: 30 },
+    pitch: 45, bearing: -12,
+    maxPitch: 70, minZoom: 8.5, maxZoom: 19,
+    attributionControl: { compact: true, customAttribution: REEF_MAP.attribution },
+    cooperativeGestures: false
+  });
+  map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+  map.on('load', () => {
+    map.setTerrain({ source: 'dem3d', exaggeration: 1.3 });
+    map.addSource('mission', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+    map.addLayer({ id: 'mission-glow', type: 'line', source: 'mission', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffb547', 'line-width': 12, 'line-opacity': 0.35, 'line-blur': 6 } });
+    map.addLayer({ id: 'mission-line', type: 'line', source: 'mission', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffb547', 'line-width': 4, 'line-dasharray': [2, 1.2] } });
+    renderMissionRoute();
+  });
+  map.on('zoom', syncPhotoLayer);
+  $('#view-3d').addEventListener('click', () => {
+    is3D = !is3D;
+    $('#view-3d').setAttribute('aria-pressed', String(is3D));
+    map.setTerrain(is3D ? { source: 'dem3d', exaggeration: 1.3 } : null);
+    map.easeTo({ pitch: is3D ? 45 : 0, bearing: is3D ? -12 : 0, duration: 800 });
+  });
+  $('#view-island').addEventListener('click', () => map.fitBounds(REEF_MAP.BOUNDS, { padding: 30, pitch: is3D ? 45 : 0, bearing: is3D ? -12 : 0 }));
 }
 
 function syncPhotoLayer() {
-  const show = map.getZoom() >= PHOTO_ZOOM;
-  document.querySelector('.map-frame').classList.toggle('zoomed', show);
-  if (show && !map.hasLayer(photoLayer)) photoLayer.addTo(map);
-  if (!show && map.hasLayer(photoLayer)) map.removeLayer(photoLayer);
+  $('.map-frame').classList.toggle('zoomed', map.getZoom() >= PHOTO_ZOOM);
 }
 
 async function load() {
@@ -95,37 +89,39 @@ function renderFilters() {
 }
 
 function renderMarkers() {
-  spotLayer.clearLayers();
-  photoLayer.clearLayers();
+  spotMarkers.forEach((m) => m.remove());
+  photoMarkers.forEach((m) => m.remove());
+  spotMarkers = []; photoMarkers = [];
   state.spots.filter((s) => !state.hidden.has(s.type)).forEach((s) => {
     const t = TYPES[s.type] || TYPES.photo;
     const on = s.id === state.selected;
-    const icon = L.divIcon({
-      className: 'lf-icon', iconSize: [48, 48], iconAnchor: [24, 24],
-      html: `<button type="button" class="marker${on ? ' on' : ''}" aria-label="${esc(t.badge)} : ${esc(s.name)}" style="--c:${t.color}"><span class="ring" aria-hidden="true"></span><span class="dot">${svgIcon(s.type)}</span></button>`
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'marker' + (on ? ' on' : '');
+    el.style.setProperty('--c', t.color);
+    el.setAttribute('aria-label', `${t.badge} : ${s.name}`);
+    el.innerHTML = `<span class="ring" aria-hidden="true"></span><span class="dot">${svgIcon(s.type)}</span>`;
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.selected = s.id;
+      renderMarkers(); renderCard();
+      if ((s.photos || []).length && map.getZoom() < PHOTO_ZOOM + 1.5) map.flyTo({ center: [s.lon, s.lat], zoom: PHOTO_ZOOM + 2, duration: 1600 });
     });
-    L.marker([s.lat, s.lon], { icon, zIndexOffset: on ? 1000 : 0, keyboard: false, riseOnHover: true })
-      .on('click', () => {
-        state.selected = s.id;
-        renderMarkers(); renderCard();
-        if ((s.photos || []).length && map.getZoom() < PHOTO_ZOOM + 2) map.flyTo([s.lat, s.lon], PHOTO_ZOOM + 2, { duration: 1.2 });
-      })
-      .addTo(spotLayer);
-    // points photo : en cercle autour du spot (ou à leur position GPS si renseignée)
+    spotMarkers.push(new maplibregl.Marker({ element: el }).setLngLat([s.lon, s.lat]).addTo(map));
+    if (on) el.parentElement && (el.style.zIndex = 3);
+
     const items = (s.photos || []).filter((p) => p.image || p.video);
     items.forEach((p, i) => {
       const hasPos = typeof p.lat === 'number' && typeof p.lon === 'number';
       const ang = (i / Math.max(items.length, 1)) * Math.PI * 2 - Math.PI / 2;
-      const r = 46;
-      const dx = hasPos ? 0 : Math.round(Math.cos(ang) * r);
-      const dy = hasPos ? 0 : Math.round(Math.sin(ang) * r);
-      const pi = L.divIcon({
-        className: 'lf-icon', iconSize: [30, 30], iconAnchor: [15 - dx, 15 - dy],
-        html: `<button type="button" class="pdot" aria-label="${p.video ? 'Vidéo' : 'Photo'} : ${esc(p.species || s.name)}">${p.video ? '<span class="pvid" aria-hidden="true"></span>' : ''}<span class="pthumb" aria-hidden="true">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}</span></button>`
-      });
-      L.marker(hasPos ? [p.lat, p.lon] : [s.lat, s.lon], { icon: pi, keyboard: false, zIndexOffset: 2000 })
-        .on('click', () => { state.selected = s.id; renderMarkers(); renderCard(); openLightbox(s, p); })
-        .addTo(photoLayer);
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'pdot';
+      d.setAttribute('aria-label', `${p.video ? 'Vidéo' : 'Photo'} : ${p.species || s.name}`);
+      d.innerHTML = `${p.video ? '<span class="pvid" aria-hidden="true"></span>' : ''}<span class="pthumb" aria-hidden="true">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}</span>`;
+      d.addEventListener('click', (e) => { e.stopPropagation(); state.selected = s.id; renderCard(); openLightbox(s, p); });
+      const offset = hasPos ? [0, 0] : [Math.round(Math.cos(ang) * 46), Math.round(Math.sin(ang) * 46)];
+      photoMarkers.push(new maplibregl.Marker({ element: d, offset }).setLngLat(hasPos ? [p.lon, p.lat] : [s.lon, s.lat]).addTo(map));
     });
   });
   syncPhotoLayer();
@@ -169,16 +165,23 @@ function openLightbox(s, first) {
   dlg.showModal();
 }
 
+let missionTip = null;
 function renderMissionRoute(fit) {
-  missionLayer.clearLayers();
+  const src = map && map.getSource && map.getSource('mission');
+  if (!src) return;
   const m = state.missions[state.mission];
-  if (!m) return;
-  const pts = (m.steps || []).map(spotById).filter(Boolean).map((s) => [s.lat, s.lon]);
+  const pts = m ? (m.steps || []).map(spotById).filter(Boolean).map((s) => [s.lon, s.lat]) : [];
+  src.setData({ type: 'FeatureCollection', features: pts.length > 1 ? [{ type: 'Feature', geometry: { type: 'LineString', coordinates: pts }, properties: {} }] : [] });
+  if (missionTip) { missionTip.remove(); missionTip = null; }
   if (pts.length < 2) return;
-  L.polyline(pts, { color: '#ffb547', weight: 10, opacity: .35, className: 'route-glow', lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(missionLayer);
-  const line = L.polyline(pts, { color: '#ffb547', weight: 4, className: 'route', lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(missionLayer);
-  line.bindTooltip('Mission · ' + m.title, { permanent: true, direction: 'bottom', className: 'mission-tip', offset: [0, 18] }).openTooltip(pts[Math.floor(pts.length / 2)]);
-  if (fit) map.flyToBounds(line.getBounds(), { padding: [70, 70], duration: 1.2 });
+  const tip = document.createElement('div');
+  tip.className = 'mission-tip';
+  tip.textContent = 'Mission · ' + m.title;
+  missionTip = new maplibregl.Marker({ element: tip, anchor: 'top', offset: [0, 22] }).setLngLat(pts[Math.floor(pts.length / 2)]).addTo(map);
+  if (fit) {
+    const b = pts.reduce((bb, p) => bb.extend(p), new maplibregl.LngLatBounds(pts[0], pts[0]));
+    map.fitBounds(b, { padding: 90, duration: 1600, pitch: is3D ? 45 : 0 });
+  }
 }
 
 function renderMissions() {

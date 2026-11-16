@@ -87,39 +87,36 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: .5px
 .map-col { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
 .map-frame { position: relative; width: 100%; aspect-ratio: 1240 / 1000; min-height: 420px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(30,227,207,.08); }
 .map { position: absolute; inset: 0; background: #06192b; font-family: "Inter", sans-serif; }
-.map.dark-base .leaflet-tile-pane { filter: hue-rotate(185deg) saturate(1.4) brightness(1.05); }
-.map.sat-base .leaflet-tile-pane { filter: saturate(1.15) contrast(1.05); }
-.map-layers { position: absolute; left: 14px; top: 14px; z-index: 500; display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: rgba(7,11,23,.85); border: 1px solid rgba(255,255,255,.15); }
+.map-layers { position: absolute; left: 14px; top: 14px; z-index: 5; display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: rgba(7,11,23,.85); border: 1px solid rgba(255,255,255,.15); }
 .layer-btn { min-height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: var(--soft); font-family: var(--hud); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
 .layer-btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 .map-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(7,11,23,.82); border: 1px solid rgba(255,255,255,.15); font-family: var(--hud); font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--soft); pointer-events: none; z-index: 500; transition: opacity .3s; white-space: nowrap; }
 .map-frame.zoomed .map-hint { opacity: 0; }
-/* Leaflet habillé façon HUD */
-.leaflet-control-zoom.leaflet-bar { border: 1px solid rgba(255,255,255,.2) !important; border-radius: 12px; overflow: hidden; box-shadow: none; }
-.leaflet-control-zoom a { width: 44px !important; height: 44px !important; line-height: 44px !important; background: rgba(7,11,23,.88) !important; color: var(--text) !important; border-bottom-color: rgba(255,255,255,.12) !important; font-size: 22px !important; }
-.leaflet-control-zoom a:hover { color: var(--accent) !important; }
-.leaflet-control-attribution { background: rgba(7,11,23,.7) !important; color: var(--muted) !important; font-size: 10px !important; }
-.leaflet-control-attribution a { color: var(--soft) !important; }
-.leaflet-container a.leaflet-popup-close-button { color: var(--soft); }
+/* MapLibre habillé façon HUD */
+.maplibregl-ctrl-group { background: rgba(7,11,23,.88) !important; border: 1px solid rgba(255,255,255,.2); border-radius: 12px !important; box-shadow: none !important; overflow: hidden; }
+.maplibregl-ctrl-group button { width: 44px !important; height: 44px !important; }
+.maplibregl-ctrl-group button + button { border-top: 1px solid rgba(255,255,255,.12) !important; }
+.maplibregl-ctrl-group .maplibregl-ctrl-icon { filter: invert(1); }
+.maplibregl-ctrl-attrib { background: rgba(7,11,23,.7) !important; color: var(--muted) !important; font-size: 10px !important; }
+.maplibregl-ctrl-attrib a { color: var(--soft) !important; }
+.maplibregl-ctrl-attrib-button { filter: invert(1); }
+.maplibregl-canvas { outline: none; }
 /* repères */
-.lf-icon { background: none; border: 0; }
-.marker { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; padding: 0; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.marker { width: 48px; height: 48px; padding: 0; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .marker .ring { position: absolute; width: 32px; height: 32px; border-radius: 50%; background: var(--c); animation: pulse 2.2s ease-out infinite; }
 .marker .dot { position: relative; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--c); color: #071018; border: 2px solid rgba(7,11,23,.85); box-shadow: 0 0 14px var(--c); transition: transform .15s; }
 .marker:hover .dot { transform: scale(1.12); }
 .marker.on .dot, .marker.on .ring { width: 40px; height: 40px; }
 .marker.on .dot { border: 3px solid #fff; box-shadow: 0 0 26px var(--c); }
-.pdot { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.pdot { width: 30px; height: 30px; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .pdot::after { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: #fff; border: 3px solid var(--photo); box-shadow: 0 0 10px var(--photo); transition: transform .15s; }
 .pdot:hover::after, .pdot:focus-visible::after { transform: scale(1.35); }
 .pdot .pthumb { position: absolute; left: 50%; bottom: 120%; transform: translateX(-50%); width: 132px; height: 99px; border-radius: 10px; overflow: hidden; border: 2px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .15s; background: #0f2c44; }
 .pdot .pthumb img { width: 100%; height: 100%; object-fit: cover; }
 .pdot:hover .pthumb, .pdot:focus-visible .pthumb { opacity: 1; }
 .pdot .pvid { position: absolute; right: -2px; top: -2px; width: 14px; height: 14px; border-radius: 50%; background: var(--van); z-index: 1; }
-.mission-tip.leaflet-tooltip { background: rgba(7,11,23,.88); border: 1px solid rgba(255,181,71,.6); border-radius: 8px; color: var(--van); font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; box-shadow: none; }
-.mission-tip.leaflet-tooltip::before { display: none; }
-.route-glow { stroke: var(--van); stroke-opacity: .45; filter: drop-shadow(0 0 6px rgba(255,181,71,.8)); }
-.route { stroke-dasharray: 14 8; animation: dash 1.6s linear infinite; }
+.mission-tip { padding: 6px 10px; white-space: nowrap; background: rgba(7,11,23,.88); border: 1px solid rgba(255,181,71,.6); border-radius: 8px; color: var(--van); font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; box-shadow: none; }
+
 .legend i.pd { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 3px solid var(--photo); }
 .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-family: var(--hud); font-weight: 600; font-size: 14px; letter-spacing: 1px; color: var(--soft); text-transform: uppercase; }
 .legend span { display: inline-flex; align-items: center; gap: 8px; }
@@ -196,3 +193,5 @@ dialog.lightbox::backdrop { background: rgba(2,5,12,.82); backdrop-filter: blur(
   .van-text h2 { font-size: 48px; }
   .hud-stats .stat { display: none; }
 }
+
+.map-frame:not(.zoomed) .pdot { display: none; }
