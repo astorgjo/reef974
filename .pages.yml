@@ -48,8 +48,11 @@ content:
             summary: "{species}"
         fields:
           - name: image
-            label: Photo
+            label: Photo (ou image d'aperçu de la vidéo)
             type: image
+          - name: video
+            label: Vidéo (facultatif, mp4 léger)
+            type: file
           - name: species
             label: Espèce
             type: string

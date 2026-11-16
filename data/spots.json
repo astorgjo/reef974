@@ -7,19 +7,54 @@
     "lat": -21.195,
     "lon": 55.283,
     "text": "Tombant rocheux et patates de corail juste au bord. Visibilité top le matin, avant que le vent se lève.",
-    "tags": ["Snorkeling", "Récif", "Le matin"],
+    "tags": [
+      "Snorkeling",
+      "Récif",
+      "Le matin"
+    ],
     "photos": []
   },
   {
     "id": "etang-sale",
-    "name": "L'Étang-Salé",
+    "name": "Bassin Pirogue",
     "type": "photo",
-    "area": "Côte ouest",
-    "lat": -21.262,
-    "lon": 55.335,
-    "text": "Le spot de la maison. Lagon calme derrière la barrière, idéal pour les sorties rapides.",
-    "tags": ["Lagon", "Facile", "Spot maison"],
-    "photos": []
+    "area": "L'Étang-Salé-les-Bains",
+    "lat": -21.269,
+    "lon": 55.3335,
+    "text": "Le spot de la maison. Petite baie abritée par le récif, en bordure de la réserve marine : platax, raies aigles, balistes…",
+    "tags": [
+      "Lagon",
+      "Facile",
+      "Spot maison"
+    ],
+    "photos": [
+      {
+        "image": "/images/spots/platax-2026-11-14.jpg",
+        "species": "Platax (poisson chauve-souris)",
+        "date": "2026-11-14",
+        "caption": "Un banc de platax au-dessus du fond rocheux."
+      },
+      {
+        "image": "/images/spots/raie-aigle-2026-11-14.jpg",
+        "species": "Raie aigle",
+        "date": "2026-11-14",
+        "caption": "Avec un baliste Picasso et un poisson-papillon en arrière-plan."
+      },
+      {
+        "image": "/images/spots/raie-aigle-2026-11-14-poster.jpg",
+        "video": "/images/spots/raie-aigle-2026-11-14.mp4",
+        "species": "Raie aigle",
+        "date": "2026-11-14",
+        "caption": "Vidéo : la raie aigle survole le fond."
+      },
+      {
+        "image": "/images/spots/raie-aigle-2026-11-15-poster.jpg",
+        "video": "/images/spots/raie-aigle-2026-11-15.mp4",
+        "species": "Raie aigle",
+        "date": "2026-11-15",
+        "caption": "Vidéo : passage au-dessus des patates de corail."
+      }
+    ]
   },
   {
     "id": "hermitage",
@@ -29,7 +64,11 @@
     "lat": -21.075,
     "lon": 55.222,
     "text": "Lagon peu profond, plein de vie. Parfait pour tester le caisson.",
-    "tags": ["Lagon", "Peu profond", "Famille"],
+    "tags": [
+      "Lagon",
+      "Peu profond",
+      "Famille"
+    ],
     "photos": []
   },
   {
@@ -40,7 +79,11 @@
     "lat": -21.018,
     "lon": 55.24,
     "text": "Côte rocheuse et eau bleue. Pour les sorties par mer calme.",
-    "tags": ["Roches", "Eau bleue", "Mer calme"],
+    "tags": [
+      "Roches",
+      "Eau bleue",
+      "Mer calme"
+    ],
     "photos": []
   },
   {
@@ -51,7 +94,11 @@
     "lat": -21.338,
     "lon": 55.475,
     "text": "Petit lagon en pleine ville, point de départ de la mission Sud sauvage.",
-    "tags": ["Lagon", "Accès facile", "Départ mission"],
+    "tags": [
+      "Lagon",
+      "Accès facile",
+      "Départ mission"
+    ],
     "photos": []
   },
   {
@@ -62,7 +109,11 @@
     "lat": -21.372,
     "lon": 55.555,
     "text": "Plage de sable blanc et piscine naturelle. Étape bivouac de la mission Sud sauvage.",
-    "tags": ["Plage", "Piscine naturelle", "Bivouac"],
+    "tags": [
+      "Plage",
+      "Piscine naturelle",
+      "Bivouac"
+    ],
     "photos": []
   },
   {
@@ -73,7 +124,11 @@
     "lat": -21.372,
     "lon": 55.73,
     "text": "Falaises de lave noire battues par les vagues. Pause pique-nique sous les vacoas.",
-    "tags": ["Falaises", "Lave", "Pique-nique"],
+    "tags": [
+      "Falaises",
+      "Lave",
+      "Pique-nique"
+    ],
     "photos": []
   },
   {
@@ -84,7 +139,11 @@
     "lat": -21.178,
     "lon": 55.795,
     "text": "Cascades qui tombent dans la mer et cocoteraie. Fin de la mission Sud sauvage.",
-    "tags": ["Cascades", "Cocoteraie", "Fin de mission"],
+    "tags": [
+      "Cascades",
+      "Cocoteraie",
+      "Fin de mission"
+    ],
     "photos": []
   },
   {
@@ -95,7 +154,11 @@
     "lat": -21.07,
     "lon": 55.383,
     "text": "Lever de soleil sur le cirque de Mafate. Monter la veille et dormir au frais.",
-    "tags": ["Lever de soleil", "Panorama", "Altitude"],
+    "tags": [
+      "Lever de soleil",
+      "Panorama",
+      "Altitude"
+    ],
     "photos": []
   },
   {
@@ -106,7 +169,11 @@
     "lat": -21.135,
     "lon": 55.471,
     "text": "La route aux 400 virages. Village de montagne et départ de randos.",
-    "tags": ["Route mythique", "Montagne", "Village"],
+    "tags": [
+      "Route mythique",
+      "Montagne",
+      "Village"
+    ],
     "photos": []
   },
   {
@@ -117,7 +184,11 @@
     "lat": -21.099,
     "lon": 55.481,
     "text": "Le point culminant de l'île. Départ de nuit pour le lever de soleil au sommet.",
-    "tags": ["Sommet", "Difficile", "Nuit en gîte"],
+    "tags": [
+      "Sommet",
+      "Difficile",
+      "Nuit en gîte"
+    ],
     "photos": []
   },
   {
@@ -128,7 +199,11 @@
     "lat": -21.205,
     "lon": 55.565,
     "text": "Le village perdu au fond de la vallée, accessible uniquement à pied.",
-    "tags": ["Vallée", "Cascade", "À pied"],
+    "tags": [
+      "Vallée",
+      "Cascade",
+      "À pied"
+    ],
     "photos": []
   },
   {
@@ -139,7 +214,11 @@
     "lat": -21.244,
     "lon": 55.713,
     "text": "Paysage lunaire et coulées récentes. Se renseigner sur l'accès avant de partir.",
-    "tags": ["Volcan", "Rando", "Paysage lunaire"],
+    "tags": [
+      "Volcan",
+      "Rando",
+      "Paysage lunaire"
+    ],
     "photos": []
   }
 ]

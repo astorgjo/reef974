@@ -15,21 +15,52 @@ const ICONS = {
   rando: '<path d="M2 20l7-12 4 6 3-4 6 10z"/>'
 };
 
-/* Projection : doit rester identique à celle qui a servi à dessiner la carte SVG */
-const PROJ = { lon0: 55.17, lat0: -20.83, c: Math.cos(21.15 * Math.PI / 180), s: 1510 };
-const VIEW = { x: -140, y: -120, w: 1240, h: 1110 };
-const toXY = (lat, lon) => [(lon - PROJ.lon0) * PROJ.c * PROJ.s, (PROJ.lat0 - lat) * PROJ.s];
-const toPct = (lat, lon) => {
-  const [x, y] = toXY(lat, lon);
-  return [((x - VIEW.x) / VIEW.w) * 100, ((y - VIEW.y) / VIEW.h) * 100];
-};
-
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const svgIcon = (type, size = 18) =>
   `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[type] || ICONS.photo}</svg>`;
 
 const state = { spots: [], missions: [], site: {}, selected: null, hidden: new Set(), mission: 0 };
+const REUNION = [[-21.40, 55.20], [-20.86, 55.85]];
+const PHOTO_ZOOM = 14;
+let map, spotLayer, photoLayer, missionLayer;
+
+function initMap() {
+  map = L.map('map', { zoomControl: false, minZoom: 9, maxZoom: 19, maxBounds: [[-21.9, 54.7], [-20.4, 56.4]], attributionControl: true, zoomSnap: 0.5 });
+  L.control.zoom({ position: 'topright', zoomInTitle: 'Zoomer', zoomOutTitle: 'Dézoomer' }).addTo(map);
+  const bases = {
+    sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagerie © Esri, Maxar, Earthstar Geographics'
+    }),
+    dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19, subdomains: 'abcd', attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>'
+    })
+  };
+  const labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd', pane: 'overlayPane', opacity: .9 });
+  let current = null;
+  const setBase = (k) => {
+    if (current) map.removeLayer(bases[current]);
+    current = k; bases[k].addTo(map);
+    if (k === 'sat') labels.addTo(map); else map.removeLayer(labels);
+    const el = document.getElementById('map');
+    el.classList.toggle('sat-base', k === 'sat'); el.classList.toggle('dark-base', k === 'dark');
+    document.querySelectorAll('.layer-btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layer === k)));
+  };
+  document.querySelectorAll('.layer-btn').forEach((b) => b.addEventListener('click', () => setBase(b.dataset.layer)));
+  setBase('sat');
+  map.fitBounds(REUNION);
+  missionLayer = L.layerGroup().addTo(map);
+  spotLayer = L.layerGroup().addTo(map);
+  photoLayer = L.layerGroup();
+  map.on('zoomend', syncPhotoLayer);
+}
+
+function syncPhotoLayer() {
+  const show = map.getZoom() >= PHOTO_ZOOM;
+  document.querySelector('.map-frame').classList.toggle('zoomed', show);
+  if (show && !map.hasLayer(photoLayer)) photoLayer.addTo(map);
+  if (!show && map.hasLayer(photoLayer)) map.removeLayer(photoLayer);
+}
 
 async function load() {
   const get = (p) => fetch(p, { cache: 'no-cache' }).then((r) => r.json());
@@ -38,6 +69,7 @@ async function load() {
   state.missions = missions;
   state.site = site;
   state.selected = state.spots[0]?.id;
+  initMap();
   renderFilters();
   renderMarkers();
   renderCard();
@@ -62,25 +94,47 @@ function renderFilters() {
 }
 
 function renderMarkers() {
-  const layer = $('#markers');
-  layer.innerHTML = state.spots.filter((s) => !state.hidden.has(s.type)).map((s) => {
-    const [x, y] = toPct(s.lat, s.lon);
+  spotLayer.clearLayers();
+  photoLayer.clearLayers();
+  state.spots.filter((s) => !state.hidden.has(s.type)).forEach((s) => {
     const t = TYPES[s.type] || TYPES.photo;
-    return `<button type="button" class="marker" data-id="${esc(s.id)}" aria-pressed="${s.id === state.selected}" aria-label="${esc(t.badge)} : ${esc(s.name)}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--c:${t.color}">
-      <span class="ring" aria-hidden="true"></span><span class="dot">${svgIcon(s.type)}</span></button>`;
-  }).join('');
-  layer.querySelectorAll('.marker').forEach((b) => b.addEventListener('click', () => {
-    state.selected = b.dataset.id;
-    renderMarkers();
-    renderCard();
-  }));
+    const on = s.id === state.selected;
+    const icon = L.divIcon({
+      className: 'lf-icon', iconSize: [48, 48], iconAnchor: [24, 24],
+      html: `<button type="button" class="marker${on ? ' on' : ''}" aria-label="${esc(t.badge)} : ${esc(s.name)}" style="--c:${t.color}"><span class="ring" aria-hidden="true"></span><span class="dot">${svgIcon(s.type)}</span></button>`
+    });
+    L.marker([s.lat, s.lon], { icon, zIndexOffset: on ? 1000 : 0, keyboard: false, riseOnHover: true })
+      .on('click', () => {
+        state.selected = s.id;
+        renderMarkers(); renderCard();
+        if ((s.photos || []).length && map.getZoom() < PHOTO_ZOOM + 2) map.flyTo([s.lat, s.lon], PHOTO_ZOOM + 2, { duration: 1.2 });
+      })
+      .addTo(spotLayer);
+    // points photo : en cercle autour du spot (ou à leur position GPS si renseignée)
+    const items = (s.photos || []).filter((p) => p.image || p.video);
+    items.forEach((p, i) => {
+      const hasPos = typeof p.lat === 'number' && typeof p.lon === 'number';
+      const ang = (i / Math.max(items.length, 1)) * Math.PI * 2 - Math.PI / 2;
+      const r = 46;
+      const dx = hasPos ? 0 : Math.round(Math.cos(ang) * r);
+      const dy = hasPos ? 0 : Math.round(Math.sin(ang) * r);
+      const pi = L.divIcon({
+        className: 'lf-icon', iconSize: [30, 30], iconAnchor: [15 - dx, 15 - dy],
+        html: `<button type="button" class="pdot" aria-label="${p.video ? 'Vidéo' : 'Photo'} : ${esc(p.species || s.name)}">${p.video ? '<span class="pvid" aria-hidden="true"></span>' : ''}<span class="pthumb" aria-hidden="true">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}</span></button>`
+      });
+      L.marker(hasPos ? [p.lat, p.lon] : [s.lat, s.lon], { icon: pi, keyboard: false, zIndexOffset: 2000 })
+        .on('click', () => { state.selected = s.id; renderMarkers(); renderCard(); openLightbox(s, p); })
+        .addTo(photoLayer);
+    });
+  });
+  syncPhotoLayer();
 }
 
 function renderCard() {
   const s = spotById(state.selected);
   if (!s) return;
   const t = TYPES[s.type] || TYPES.photo;
-  const photo = (s.photos || []).find((p) => p.image);
+  const photo = (s.photos || []).find((p) => p.image && !p.video) || (s.photos || []).find((p) => p.image);
   $('#spot-card').innerHTML = `
     <div class="card-media">
       ${photo ? `<img src="${esc(photo.image)}" alt="${esc(photo.species || s.name)}">` : `<span class="ph">Photo · ${esc(s.name)}</span>`}
@@ -98,36 +152,32 @@ function renderCard() {
   $('#open-photos').addEventListener('click', () => openLightbox(s));
 }
 
-function openLightbox(s) {
+function openLightbox(s, first) {
   const dlg = $('#lightbox');
-  const photos = (s.photos || []).filter((p) => p.image);
+  let photos = (s.photos || []).filter((p) => p.image || p.video);
+  if (first) photos = [first, ...photos.filter((p) => p !== first)];
   $('#lb-title').textContent = s.name;
   $('#lb-body').innerHTML = photos.length
     ? `<div class="lb-grid">${photos.map((p) => `
-        <figure><img src="${esc(p.image)}" alt="${esc(p.species || s.name)}" loading="lazy">
+        <figure>${p.video
+          ? `<video src="${esc(p.video)}" ${p.image ? `poster="${esc(p.image)}"` : ''} controls playsinline preload="none" aria-label="Vidéo : ${esc(p.species || s.name)}"></video>`
+          : `<img src="${esc(p.image)}" alt="${esc(p.species || s.name)}" loading="lazy">`}
           <figcaption><b>${esc(p.species || '')}</b>${[p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ')}${p.caption ? `<span>${esc(p.caption)}</span>` : ''}</figcaption>
         </figure>`).join('')}</div>`
     : `<p class="lb-empty">Les photos de ce spot arrivent bientôt.</p>`;
   dlg.showModal();
 }
 
-function renderMissionRoute() {
+function renderMissionRoute(fit) {
+  missionLayer.clearLayers();
   const m = state.missions[state.mission];
-  const layer = document.getElementById('mission-layer');
-  const tag = $('#mission-tag');
-  if (!m || !layer) return;
-  const pts = (m.steps || []).map(spotById).filter(Boolean).map((s) => toXY(s.lat, s.lon));
-  if (pts.length < 2) { layer.innerHTML = ''; tag.hidden = true; return; }
-  const d = 'M' + pts.map(([x, y]) => `${x.toFixed(0)},${y.toFixed(0)}`).join(' L');
-  layer.innerHTML = `<path class="route-glow" d="${d}"/><path class="route" d="${d}"/>`;
-  const last = spotById(m.steps[m.steps.length - 1]);
-  const first = spotById(m.steps[0]);
-  const [x1, y1] = toPct(first.lat, first.lon);
-  const [x2, y2] = toPct(last.lat, last.lon);
-  tag.hidden = false;
-  tag.textContent = 'Mission · ' + m.title;
-  tag.style.left = ((x1 + x2) / 2) + '%';
-  tag.style.top = (Math.max(y1, y2) + 6) + '%';
+  if (!m) return;
+  const pts = (m.steps || []).map(spotById).filter(Boolean).map((s) => [s.lat, s.lon]);
+  if (pts.length < 2) return;
+  L.polyline(pts, { color: '#ffb547', weight: 10, opacity: .35, className: 'route-glow', lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(missionLayer);
+  const line = L.polyline(pts, { color: '#ffb547', weight: 4, className: 'route', lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(missionLayer);
+  line.bindTooltip('Mission · ' + m.title, { permanent: true, direction: 'bottom', className: 'mission-tip', offset: [0, 18] }).openTooltip(pts[Math.floor(pts.length / 2)]);
+  if (fit) map.flyToBounds(line.getBounds(), { padding: [70, 70], duration: 1.2 });
 }
 
 function renderMissions() {
@@ -151,8 +201,8 @@ function renderMissions() {
   $('#missions-list').querySelectorAll('[data-show]').forEach((b) => b.addEventListener('click', () => {
     state.mission = Number(b.dataset.show);
     renderMissions();
-    renderMissionRoute();
     $('#carte').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => renderMissionRoute(true), 400);
   }));
 }
 
