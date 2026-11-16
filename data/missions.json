@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Le Sud sauvage",
+    "days": "2 jours",
+    "km": "~75 km",
+    "steps": ["saint-pierre", "grand-anse", "cap-mechant", "anse-cascades"]
+  },
+  {
+    "title": "Lagons de l'Ouest",
+    "days": "2 jours",
+    "km": "~45 km",
+    "steps": ["cap-houssaye", "hermitage", "pointe-au-sel", "etang-sale"]
+  },
+  {
+    "title": "Les hauts",
+    "days": "3 jours",
+    "km": "À calculer",
+    "steps": ["maido", "cilaos", "grand-bassin", "fournaise"]
+  }
+]

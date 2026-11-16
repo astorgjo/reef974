@@ -1,0 +1,120 @@
+media:
+  input: images
+  output: /images
+
+content:
+  - name: spots
+    label: Spots de la carte
+    type: file
+    path: data/spots.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identifiant (sans espace ni accent, ex. pointe-au-sel)
+        type: string
+        required: true
+      - name: name
+        label: Nom du spot
+        type: string
+        required: true
+      - name: type
+        label: Type de repère
+        type: select
+        options:
+          values: [photo, van, bivouac, rando]
+      - name: area
+        label: Zone / commune
+        type: string
+      - name: lat
+        label: Latitude (ex. -21.195)
+        type: number
+      - name: lon
+        label: Longitude (ex. 55.283)
+        type: number
+      - name: text
+        label: Description
+        type: text
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+      - name: photos
+        label: Photos
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{species}"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+          - name: species
+            label: Espèce
+            type: string
+          - name: date
+            label: Date
+            type: date
+          - name: depth
+            label: Profondeur (m)
+            type: number
+          - name: caption
+            label: Légende
+            type: text
+
+  - name: missions
+    label: Missions (road trips)
+    type: file
+    path: data/missions.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Titre
+        type: string
+      - name: days
+        label: Durée
+        type: string
+      - name: km
+        label: Distance
+        type: string
+      - name: steps
+        label: Étapes (identifiants des spots, dans l'ordre)
+        type: string
+        list: true
+
+  - name: site
+    label: Réglages & Don Pablo
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - name: instagram
+        label: Compte Instagram (sans @)
+        type: string
+      - name: van
+        label: Le van
+        type: object
+        fields:
+          - name: name
+            label: Nom
+            type: string
+          - name: pitch
+            label: Présentation
+            type: text
+          - name: beds
+            label: Couchages
+            type: string
+          - name: equipment
+            label: Équipement
+            type: string
+          - name: price
+            label: Prix / jour
+            type: string
+          - name: status
+            label: Texte du bouton
+            type: string
+          - name: photo
+            label: Photo du van
+            type: image

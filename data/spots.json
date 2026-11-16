@@ -1,0 +1,145 @@
+[
+  {
+    "id": "pointe-au-sel",
+    "name": "Pointe au Sel",
+    "type": "photo",
+    "area": "Saint-Leu",
+    "lat": -21.195,
+    "lon": 55.283,
+    "text": "Tombant rocheux et patates de corail juste au bord. Visibilité top le matin, avant que le vent se lève.",
+    "tags": ["Snorkeling", "Récif", "Le matin"],
+    "photos": []
+  },
+  {
+    "id": "etang-sale",
+    "name": "L'Étang-Salé",
+    "type": "photo",
+    "area": "Côte ouest",
+    "lat": -21.262,
+    "lon": 55.335,
+    "text": "Le spot de la maison. Lagon calme derrière la barrière, idéal pour les sorties rapides.",
+    "tags": ["Lagon", "Facile", "Spot maison"],
+    "photos": []
+  },
+  {
+    "id": "hermitage",
+    "name": "Lagon de l'Hermitage",
+    "type": "photo",
+    "area": "Saint-Gilles",
+    "lat": -21.075,
+    "lon": 55.222,
+    "text": "Lagon peu profond, plein de vie. Parfait pour tester le caisson.",
+    "tags": ["Lagon", "Peu profond", "Famille"],
+    "photos": []
+  },
+  {
+    "id": "cap-houssaye",
+    "name": "Cap La Houssaye",
+    "type": "photo",
+    "area": "Saint-Paul",
+    "lat": -21.018,
+    "lon": 55.24,
+    "text": "Côte rocheuse et eau bleue. Pour les sorties par mer calme.",
+    "tags": ["Roches", "Eau bleue", "Mer calme"],
+    "photos": []
+  },
+  {
+    "id": "saint-pierre",
+    "name": "Lagon de Saint-Pierre",
+    "type": "photo",
+    "area": "Sud",
+    "lat": -21.338,
+    "lon": 55.475,
+    "text": "Petit lagon en pleine ville, point de départ de la mission Sud sauvage.",
+    "tags": ["Lagon", "Accès facile", "Départ mission"],
+    "photos": []
+  },
+  {
+    "id": "grand-anse",
+    "name": "Grand Anse",
+    "type": "bivouac",
+    "area": "Petite-Île",
+    "lat": -21.372,
+    "lon": 55.555,
+    "text": "Plage de sable blanc et piscine naturelle. Étape bivouac de la mission Sud sauvage.",
+    "tags": ["Plage", "Piscine naturelle", "Bivouac"],
+    "photos": []
+  },
+  {
+    "id": "cap-mechant",
+    "name": "Cap Méchant",
+    "type": "van",
+    "area": "Saint-Philippe",
+    "lat": -21.372,
+    "lon": 55.73,
+    "text": "Falaises de lave noire battues par les vagues. Pause pique-nique sous les vacoas.",
+    "tags": ["Falaises", "Lave", "Pique-nique"],
+    "photos": []
+  },
+  {
+    "id": "anse-cascades",
+    "name": "Anse des Cascades",
+    "type": "bivouac",
+    "area": "Sainte-Rose",
+    "lat": -21.178,
+    "lon": 55.795,
+    "text": "Cascades qui tombent dans la mer et cocoteraie. Fin de la mission Sud sauvage.",
+    "tags": ["Cascades", "Cocoteraie", "Fin de mission"],
+    "photos": []
+  },
+  {
+    "id": "maido",
+    "name": "Piton Maïdo",
+    "type": "van",
+    "area": "Les hauts de Saint-Paul",
+    "lat": -21.07,
+    "lon": 55.383,
+    "text": "Lever de soleil sur le cirque de Mafate. Monter la veille et dormir au frais.",
+    "tags": ["Lever de soleil", "Panorama", "Altitude"],
+    "photos": []
+  },
+  {
+    "id": "cilaos",
+    "name": "Cilaos",
+    "type": "van",
+    "area": "Cirque de Cilaos",
+    "lat": -21.135,
+    "lon": 55.471,
+    "text": "La route aux 400 virages. Village de montagne et départ de randos.",
+    "tags": ["Route mythique", "Montagne", "Village"],
+    "photos": []
+  },
+  {
+    "id": "piton-neiges",
+    "name": "Piton des Neiges",
+    "type": "rando",
+    "area": "Toit de l'océan Indien",
+    "lat": -21.099,
+    "lon": 55.481,
+    "text": "Le point culminant de l'île. Départ de nuit pour le lever de soleil au sommet.",
+    "tags": ["Sommet", "Difficile", "Nuit en gîte"],
+    "photos": []
+  },
+  {
+    "id": "grand-bassin",
+    "name": "Grand Bassin",
+    "type": "rando",
+    "area": "Le Tampon",
+    "lat": -21.205,
+    "lon": 55.565,
+    "text": "Le village perdu au fond de la vallée, accessible uniquement à pied.",
+    "tags": ["Vallée", "Cascade", "À pied"],
+    "photos": []
+  },
+  {
+    "id": "fournaise",
+    "name": "Piton de la Fournaise",
+    "type": "rando",
+    "area": "Le volcan",
+    "lat": -21.244,
+    "lon": 55.713,
+    "text": "Paysage lunaire et coulées récentes. Se renseigner sur l'accès avant de partir.",
+    "tags": ["Volcan", "Rando", "Paysage lunaire"],
+    "photos": []
+  }
+]

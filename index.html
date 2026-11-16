@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reef974 · Photos sous-marines et road trips à La Réunion</title>
+<meta name="description" content="La carte interactive de Reef974 : photos de poissons, spots de snorkeling, bivouacs et road trips en van à La Réunion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="hud-bar">
+  <div class="wrap">
+    <a class="logo" href="#carte">REEF<span>974</span></a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#carte" class="on">Carte</a>
+      <a href="#missions">Missions</a>
+      <a href="#van">Le van</a>
+    </nav>
+    <div class="hud-spacer"></div>
+    <div class="hud-stats">
+      <div class="stat"><small>Spots</small><b id="stat-spots" style="color: var(--photo)">–</b></div>
+      <div class="stat"><small>Collection</small><b id="stat-species" style="color: var(--accent)">–</b></div>
+      <div class="stat"><small>Road trips</small><b id="stat-missions" style="color: var(--van)">–</b></div>
+      <a class="btn-ghost" data-instagram href="https://www.instagram.com/reef974">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        <span data-ig-name>@reef974</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="carte">
+    <div class="wrap">
+      <div class="side">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span class="eyebrow">Île de La Réunion · Océan Indien</span>
+          <h1><span class="skew">Explore l'île,<br>spot par spot</span></h1>
+          <p class="lead">Chaque repère est une sortie : clique dessus pour voir les photos prises sur place, sous l'eau ou sur la route.</p>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="Filtrer les repères"></div>
+        <article class="card" id="spot-card" aria-live="polite"></article>
+      </div>
+
+      <div class="map-col">
+        <div class="map">
+<svg id="map-svg" viewBox="-140 -120 1240 1110" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible" role="img" aria-label="Carte détaillée de La Réunion : fonds marins, barrière de corail, cirques, volcans, routes et spots">
+<defs><radialGradient id="r974hi1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#cdb98a"></stop><stop offset="40%" stop-color="#6f7650"></stop><stop offset="100%" stop-color="#2a5a3c" stop-opacity="0"></stop></radialGradient><radialGradient id="r974hi2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#b8735a"></stop><stop offset="40%" stop-color="#6e5a48"></stop><stop offset="100%" stop-color="#2a5a3c" stop-opacity="0"></stop></radialGradient><linearGradient id="r974land" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a7a50"></stop><stop offset="55%" stop-color="#2a6243"></stop><stop offset="100%" stop-color="#1f4c38"></stop></linearGradient><filter id="r974glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"></feGaussianBlur></filter></defs>
+<path d="M19,124 L-8,146 L-31,173 L-46,199 L-57,228 L-65,258 L-70,296 L-70,333 L-65,365 L-55,400 L-38,439 L-18,473 L21,530 L30,588 L49,636 L72,672 L114,726 L134,758 L165,788 L199,807 L220,814 L242,818 L272,842 L308,861 L359,882 L407,898 L441,922 L477,940 L525,956 L576,964 L627,966 L665,962 L708,966 L743,964 L795,953 L843,933 L884,933 L922,927 L954,916 L981,901 L1007,880 L1028,857 L1048,821 L1062,779 L1069,735 L1068,688 L1089,597 L1106,535 L1110,485 L1107,456 L1102,432 L1086,393 L1061,357 L1030,329 L980,301 L967,283 L950,264 L944,239 L931,212 L918,192 L898,169 L886,123 L868,85 L836,42 L804,9 L783,-9 L760,-24 L735,-35 L673,-52 L641,-68 L609,-77 L550,-82 L521,-87 L486,-86 L451,-96 L420,-101 L359,-100 L325,-97 L291,-89 L258,-78 L225,-61 L181,-34 L152,-30 L127,-23 L107,-14 L82,2 L55,27 L34,59 L22,94 L19,124" fill="#1a6f9a" fill-opacity="0.1" stroke="#7fe3ff" stroke-opacity="0.1" stroke-width="1.2"></path>
+<path d="M82,163 L58,176 L38,192 L23,210 L10,234 L0,262 L-5,291 L-5,324 L-2,352 L7,382 L21,412 L86,509 L91,563 L97,586 L107,607 L125,635 L169,691 L185,717 L204,736 L218,745 L235,751 L273,756 L294,777 L316,792 L381,821 L436,838 L473,865 L499,879 L533,891 L573,898 L630,900 L665,896 L709,901 L754,896 L787,887 L829,868 L883,868 L919,860 L950,844 L975,819 L988,796 L999,760 L1004,726 L1003,680 L1023,590 L1043,518 L1045,481 L1039,447 L1028,421 L1008,395 L982,375 L934,351 L912,318 L889,298 L886,271 L878,249 L864,229 L836,199 L828,153 L814,121 L789,87 L763,59 L747,45 L728,33 L711,25 L648,9 L623,-5 L596,-13 L539,-17 L514,-22 L480,-19 L446,-31 L419,-36 L361,-35 L334,-33 L303,-25 L278,-15 L240,5 L203,29 L178,31 L156,36 L136,44 L120,55 L102,73 L89,97 L84,119 L82,163" fill="#1d84aa" fill-opacity="0.14" stroke="#7fe3ff" stroke-opacity="0.1" stroke-width="1.2"></path>
+<path d="M125,192 L79,216 L66,228 L56,242 L46,265 L41,290 L39,318 L43,343 L51,370 L61,392 L129,496 L134,550 L139,567 L147,586 L165,613 L203,662 L220,689 L231,700 L251,708 L298,712 L318,739 L341,755 L398,779 L455,797 L497,827 L520,839 L544,847 L573,853 L632,855 L666,849 L698,855 L743,853 L772,845 L819,824 L872,824 L901,818 L921,809 L939,792 L948,776 L956,749 L960,720 L957,688 L959,671 L980,579 L999,511 L1000,485 L995,459 L986,439 L973,424 L954,411 L902,385 L876,345 L864,335 L848,327 L845,319 L843,289 L839,273 L827,255 L794,219 L787,173 L778,149 L759,121 L720,81 L694,67 L628,50 L607,38 L587,31 L535,28 L506,23 L480,27 L436,13 L416,9 L362,10 L338,12 L317,18 L289,29 L219,72 L172,78 L156,84 L144,93 L135,104 L130,117 L129,128 L131,139 L127,160 L129,178 L125,192" fill="#2399b8" fill-opacity="0.2" stroke="#7fe3ff" stroke-opacity="0.1" stroke-width="1.2"></path>
+<path d="M162,139 L154,152 L155,186 L146,208 L133,218 L94,238 L84,246 L77,258 L67,290 L66,330 L73,356 L84,379 L153,486 L160,544 L168,570 L182,592 L224,646 L244,678 L257,683 L313,688 L333,718 L352,731 L407,755 L466,774 L512,806 L527,814 L547,821 L572,826 L631,829 L667,822 L694,829 L735,828 L758,822 L814,799 L883,796 L902,790 L915,780 L923,768 L930,744 L934,719 L931,689 L933,667 L954,573 L973,508 L974,488 L970,466 L965,454 L957,444 L941,434 L885,405 L856,362 L828,347 L820,325 L818,295 L815,282 L770,229 L761,179 L755,161 L739,138 L708,105 L684,91 L620,75 L598,62 L581,57 L533,54 L506,49 L477,53 L418,36 L363,35 L335,40 L308,49 L277,65 L228,97 L215,100 L185,102 L168,108 L159,115 L155,122 L156,132 L162,139" fill="#33c9cf" fill-opacity="0.32" stroke="#7fe3ff" stroke-opacity="0.25" stroke-width="1.2"></path>
+<g font-family="Rajdhani, sans-serif" font-weight="600" font-size="13" letter-spacing="1" fill="#9fdcf0" fill-opacity=".75">
+<text x="78" y="248" text-anchor="end">-20 m</text>
+<text x="59" y="228" text-anchor="end">-100 m</text>
+<text x="22" y="203" text-anchor="end">-500 m</text>
+<text x="-36" y="173" text-anchor="end">-1000 m</text>
+<text x="807" y="228" text-anchor="start">-100 m</text>
+<text x="846" y="203" text-anchor="start">-500 m</text>
+<text x="908" y="173" text-anchor="start">-1000 m</text>
+</g>
+<g fill="none" stroke="#9fdcf0" stroke-opacity=".22" stroke-width="1.5" stroke-linecap="round">
+<path d="M84,14 q6,-5 12,0 t12,0"></path>
+<path d="M133,892 q6,-5 12,0 t12,0"></path>
+<path d="M918,-7 q6,-5 12,0 t12,0"></path>
+<path d="M983,826 q6,-5 12,0 t12,0"></path>
+<path d="M839,-54 q6,-5 12,0 t12,0"></path>
+<path d="M1057,109 q6,-5 12,0 t12,0"></path>
+<path d="M947,8 q6,-5 12,0 t12,0"></path>
+<path d="M-47,145 q6,-5 12,0 t12,0"></path>
+<path d="M-69,646 q6,-5 12,0 t12,0"></path>
+<path d="M937,922 q6,-5 12,0 t12,0"></path>
+<path d="M747,927 q6,-5 12,0 t12,0"></path>
+<path d="M-99,209 q6,-5 12,0 t12,0"></path>
+<path d="M330,929 q6,-5 12,0 t12,0"></path>
+<path d="M271,-90 q6,-5 12,0 t12,0"></path>
+<path d="M-67,81 q6,-5 12,0 t12,0"></path>
+<path d="M125,-37 q6,-5 12,0 t12,0"></path>
+<path d="M-55,80 q6,-5 12,0 t12,0"></path>
+<path d="M174,967 q6,-5 12,0 t12,0"></path>
+<path d="M-83,172 q6,-5 12,0 t12,0"></path>
+<path d="M47,-45 q6,-5 12,0 t12,0"></path>
+<path d="M129,835 q6,-5 12,0 t12,0"></path>
+<path d="M942,889 q6,-5 12,0 t12,0"></path>
+<path d="M197,887 q6,-5 12,0 t12,0"></path>
+<path d="M1008,-20 q6,-5 12,0 t12,0"></path>
+<path d="M1026,929 q6,-5 12,0 t12,0"></path>
+<path d="M941,37 q6,-5 12,0 t12,0"></path>
+<path d="M-49,79 q6,-5 12,0 t12,0"></path>
+<path d="M138,-96 q6,-5 12,0 t12,0"></path>
+<path d="M968,-86 q6,-5 12,0 t12,0"></path>
+<path d="M914,24 q6,-5 12,0 t12,0"></path>
+<path d="M-89,-63 q6,-5 12,0 t12,0"></path>
+<path d="M-108,796 q6,-5 12,0 t12,0"></path>
+<path d="M857,-9 q6,-5 12,0 t12,0"></path>
+<path d="M1020,2 q6,-5 12,0 t12,0"></path>
+<path d="M78,835 q6,-5 12,0 t12,0"></path>
+<path d="M718,-94 q6,-5 12,0 t12,0"></path>
+<path d="M-23,54 q6,-5 12,0 t12,0"></path>
+<path d="M-93,-78 q6,-5 12,0 t12,0"></path>
+<path d="M1000,788 q6,-5 12,0 t12,0"></path>
+<path d="M1005,70 q6,-5 12,0 t12,0"></path>
+<path d="M777,936 q6,-5 12,0 t12,0"></path>
+<path d="M1056,862 q6,-5 12,0 t12,0"></path>
+</g>
+<g><ellipse cx="-95" cy="470" rx="50" ry="110" fill="none" stroke="#c9f1ff" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="4 6"></ellipse><path d="M-107,455 c8,-14 24,-14 30,-2 c-8,0 -12,6 -14,14 c-2,-8 -8,-12 -16,-12z M-92,467 l0,22" fill="none" stroke="#c9f1ff" stroke-opacity=".8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><text x="-95" y="520" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="700" font-size="13" letter-spacing="1.5" fill="#c9f1ff" fill-opacity=".85">BALEINES</text><text x="-95" y="536" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="600" font-size="12" letter-spacing="1" fill="#c9f1ff" fill-opacity=".7">JUIN – OCT.</text></g>
+<path d="M55,270 L49,318 L57,357 L73,392 L139,492 L145,553 L150,570 L159,587 L211,656 L228,683 L237,692 L246,697 L262,700 L320,700 L320,675 L262,670 L254,667 L235,638 L185,571 L174,547 L170,496 L166,480 L153,456 L98,376 L85,347 L79,313 L82,288 L87,270 L55,270Z" fill="#1ee3cf" fill-opacity=".10" stroke="#1ee3cf" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="5 4"></path>
+<path d="M879,418 L874,414 L868,407 L864,400 L854,383 L846,372 L839,367 L828,362 L821,359 L817,356 L815,353 L811,343 L806,328 L805,317 L804,297 L802,288 L799,283 L794,278 L768,251 L763,244 L758,237 L756,231 L754,223 L752,213 L749,191 L747,182 L745,174 L743,168 L739,162 L735,155 L729,147 L702,119 L696,113 L686,107 L679,104 L669,101 L656,98 L633,93 L615,88 L608,85 L599,79 L592,75 L585,72 L579,70 L565,69 L532,68 L523,67 L512,63 L506,63 L499,63 L491,66 L486,67 L479,67 L474,67 L460,64 L429,53 L421,51 L413,49 L388,49 L364,49 L355,50 L347,52 L330,56 L322,58 L306,65 L291,73 L271,85 L244,104 L234,110 L223,113 L217,114 L191,115 L183,117 L177,119 L171,123 L169,125 L169,127 L173,131 L175,134 L176,136 L176,143 L174,146 L169,152 L168,155 L167,162 L169,169 L169,175 L169,184 L168,191 L166,198 L164,205 L161,211 L157,216 L155,219 L148,225 L144,228 L134,233 L122,238 L111,243 L106,246 L98,252 L93,258 L88,268 L84,278 L82,288 L80,306 L80,320 L82,335 L86,351 L94,368 L101,380 L117,404 L153,456 L161,470 L166,480 L168,484 L170,496 L171,522 L173,542 L177,555 L180,563 L185,571 L193,584 L206,600 L227,627 L239,643 L244,651 L250,662 L252,666 L255,668 L259,669 L309,673 L316,674 L319,675 L322,677 L324,679 L333,694 L344,708 L349,713 L356,718 L380,729 L412,742 L437,751 L460,757 L471,761 L477,764 L487,770 L511,789 L526,798 L536,803 L547,807 L558,810 L570,812 L582,814 L596,815 L613,815 L631,815 L643,814 L650,812 L659,809 L662,808 L668,808 L674,809 L685,813 L695,815 L712,815 L733,814 L744,812 L753,809 L768,803 L795,791 L803,787 L810,785 L817,784 L825,783 L835,783 L865,784 L880,782 L889,780 L896,778 L902,774 L907,769 L910,762 L914,752 L917,737 L919,726 L920,718 L920,711 L918,697 L917,685 L918,674 L920,664 L929,619 L941,570 L947,544 L955,521 L958,512 L960,499 L960,488 L959,477 L956,467 L952,459 L948,455 L939,449 L930,444 L897,428 L879,418Z" fill="url(#r974land)" stroke="#e9f6ee" stroke-opacity=".7" stroke-width="2.2" stroke-linejoin="round"></path>
+<ellipse cx="438" cy="406" rx="260" ry="220" fill="url(#r974hi1)" opacity=".85"></ellipse>
+<ellipse cx="765" cy="625" rx="175" ry="155" fill="url(#r974hi2)" opacity=".85"></ellipse>
+<path d="M122,278 L117,292 L114,315 L122,346 L198,465 L204,488 L208,536 L213,551 L276,636 L319,639 L336,644 L350,655 L367,681 L373,687 L424,709 L485,729 L507,741 L543,767 L572,777 L629,780 L668,773 L697,780 L722,780 L742,776 L782,758 L803,751 L879,747 L885,720 L882,689 L884,663 L907,561 L924,501 L924,481 L856,444 L840,428 L822,398 L801,388 L790,378 L782,363 L773,339 L769,303 L738,269 L725,248 L719,230 L711,183 L689,156 L669,138 L605,121 L572,105 L528,103 L505,98 L488,102 L469,102 L409,84 L366,84 L346,87 L316,100 L253,139 L232,147 L210,149 L204,165 L204,185 L201,204 L186,236 L175,248 L163,257 L122,278Z M155,306 L155,319 L162,336 L216,416 L236,453 L244,483 L248,531 L298,597 L328,600 L353,608 L378,627 L397,654 L444,674 L501,692 L529,707 L561,732 L577,737 L627,740 L647,735 L668,733 L688,735 L705,741 L721,740 L791,713 L814,709 L844,708 L842,679 L846,650 L868,552 L882,504 L847,486 L827,473 L808,452 L794,429 L771,415 L755,397 L745,379 L735,354 L730,319 L703,289 L688,264 L681,240 L675,200 L651,174 L593,160 L561,144 L506,140 L486,142 L464,141 L439,136 L404,124 L356,126 L329,138 L275,173 L244,185 L237,222 L220,258 L194,284 L155,306Z M210,328 L254,392 L275,428 L286,461 L291,514 L293,517 L322,554 L358,561 L385,574 L412,596 L428,619 L459,631 L519,651 L548,666 L583,692 L593,694 L620,695 L650,689 L668,688 L715,695 L763,674 L798,666 L807,616 L828,527 L807,514 L789,499 L761,463 L731,440 L717,421 L698,383 L686,339 L661,308 L647,282 L638,254 L632,219 L627,214 L580,203 L547,188 L506,185 L481,187 L461,186 L434,181 L397,169 L365,170 L285,218 L273,255 L257,283 L236,307 L210,328Z M277,337 L307,383 L325,420 L335,455 L340,496 L349,508 L376,515 L413,533 L431,546 L461,579 L518,597 L548,609 L575,625 L603,645 L613,645 L644,639 L665,638 L709,643 L754,625 L771,549 L744,524 L725,499 L694,473 L672,444 L654,407 L639,362 L618,333 L602,305 L587,257 L556,247 L535,238 L506,236 L481,237 L455,236 L424,230 L388,219 L379,219 L327,253 L305,300 L277,337Z M372,290 L345,340 L361,367 L377,400 L387,435 L392,462 L417,473 L442,486 L467,504 L495,533 L537,545 L560,554 L589,569 L619,588 L665,583 L702,586 L707,583 L710,568 L685,538 L656,512 L642,496 L620,465 L603,429 L589,387 L562,348 L542,301 L521,293 L448,291 L389,277 L372,290Z" fill="none" stroke="#ffffff" stroke-opacity=".10" stroke-width="1.2"></path>
+<g fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="1.2"><ellipse cx="765" cy="625" rx="40" ry="35"></ellipse><ellipse cx="765" cy="625" rx="80" ry="70"></ellipse><ellipse cx="765" cy="625" rx="120" ry="106"></ellipse></g>
+<path d="M413,316 L407,298 L407,297 L397,280 L397,280 L396,279 L396,279 L381,271 L380,271 L379,270 L357,268 L356,268 L356,268 L355,268 L329,284 L328,284 L327,285 L323,292 L322,293 L314,316 L314,317 L313,317 L313,334 L313,334 L313,335 L314,336 L328,355 L329,355 L329,355 L330,356 L331,356 L355,358 L355,358 L356,358 L356,358 L356,358 L376,370 L377,370 L378,370 L378,370 L379,370 L379,370 L380,370 L399,355 L400,355 L418,338 L419,337 L419,337 L419,336 L419,336 L419,335 L419,335 L413,316 L413,316Z" fill="#173a2a" fill-opacity=".75" stroke="#e8dcb4" stroke-opacity=".55" stroke-width="1.6"></path>
+<path d="M562,346 L550,324 L550,323 L536,301 L536,300 L536,300 L535,299 L534,299 L534,299 L517,298 L517,298 L516,298 L498,303 L498,303 L479,308 L478,308 L478,309 L458,322 L458,323 L457,324 L457,324 L457,325 L456,347 L456,348 L456,349 L465,369 L465,370 L476,384 L476,384 L495,401 L495,401 L496,401 L496,402 L497,402 L498,401 L518,396 L518,396 L539,393 L539,393 L540,393 L540,393 L541,392 L541,392 L541,391 L541,390 L544,368 L544,368 L544,368 L544,368 L544,367 L544,367 L544,367 L545,367 L561,350 L562,349 L562,348 L562,348 L562,347 L562,347 L562,346Z" fill="#173a2a" fill-opacity=".75" stroke="#e8dcb4" stroke-opacity=".55" stroke-width="1.6"></path>
+<path d="M459,454 L459,454 L459,453 L464,437 L464,437 L464,436 L464,435 L464,435 L463,434 L463,434 L462,433 L444,425 L443,425 L443,425 L443,425 L429,412 L428,411 L427,411 L427,411 L426,411 L425,411 L405,418 L405,418 L404,418 L404,418 L404,418 L388,417 L387,417 L386,417 L386,417 L385,418 L371,432 L371,432 L370,433 L370,433 L365,452 L365,453 L365,453 L367,470 L367,471 L368,471 L368,472 L380,485 L381,486 L381,486 L382,486 L405,490 L405,490 L406,490 L406,490 L422,498 L423,499 L423,499 L424,499 L425,498 L425,498 L426,498 L447,481 L447,481 L456,473 L456,472 L457,472 L457,471 L457,471 L459,454Z" fill="#173a2a" fill-opacity=".75" stroke="#e8dcb4" stroke-opacity=".55" stroke-width="1.6"></path>
+<path d="M810,664 L810,664 L887,710 L887,710 L887,710 L920,700 L920,700 L920,700 L920,697 L920,696 L919,693 L919,693 L919,689 L919,689 L919,686 L919,685 L919,682 L919,682 L920,678 L920,678 L920,674 L920,674 L921,670 L921,670 L922,664 L922,664 L923,658 L923,658 L924,650 L925,650 L926,641 L926,641 L929,631 L929,631 L931,620 L931,620 L932,616 L932,616 L932,616 L929,574 L929,574 L929,574 L873,529 L873,529 L873,529 L831,544 L831,544 L831,544 L810,664 L810,664Z" fill="#2a2420" fill-opacity=".85" stroke="#ff8a4c" stroke-opacity=".35" stroke-width="1"></path>
+<path d="M760,619 L831,604 L915,604" fill="none" stroke="#ff8a4c" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="3 5"></path>
+<path d="M768,642 L845,649 L922,657" fill="none" stroke="#ff8a4c" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="3 5"></path>
+<path d="M775,589 L859,559 L915,559" fill="none" stroke="#ff8a4c" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="3 5"></path>
+<path d="M366,347 L296,287 L225,227 L169,181" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M493,362 L563,302 L634,257 L690,211" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M422,468 L394,559 L366,649 L352,710" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M591,619 L606,710 L634,815" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M634,438 L718,393 L775,362" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M465,257 L422,181 L394,91" fill="none" stroke="#7fd8ff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M182,127 L184,133 L185,144 L176,158 L178,185 L170,211 L164,222 L153,232 L115,251 L100,263 L90,290 L89,326 L95,348 L104,368 L160,451 L175,477 L179,494 L182,541 L188,560 L204,584 L243,633 L260,660 L323,667 L332,673 L350,702 L361,710 L415,733 L475,753 L531,790 L549,798 L571,803 L630,806 L668,799 L696,806 L728,805 L750,801 L808,777 L825,774 L874,774 L889,771 L898,765 L904,753 L910,728 L908,685 L912,656 L935,558 L950,504 L951,489 L948,473 L944,464 L937,458 L871,423 L860,412 L840,378 L818,368 L810,361 L797,330 L794,292 L752,244 L746,229 L740,188 L735,172 L722,153 L695,124 L676,112 L613,97 L580,80 L526,76 L506,72 L475,76 L419,59 L395,58 L356,59 L333,64 L303,77 L237,118 L219,123 L182,127" fill="none" stroke="#f4e9c8" stroke-opacity=".45" stroke-width="2" stroke-linejoin="round"></path>
+<path d="M437,755 L479,680 L535,589 L577,529 L634,438 L690,362 L760,317" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M338,695 L366,589 L394,529 L422,461" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M169,242 L211,302 L253,332 L300,362" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M563,544 L634,559 L690,574 L732,581" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M183,211 L183,332 L197,438 L225,559 L282,649" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M676,211 L606,272 L535,317 L493,347" fill="none" stroke="#f4e9c8" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round"></path>
+<path d="M88,250 L78,268 L72,290 L70,317 L74,341 L82,363 L91,381 L145,461 L158,484 L161,497 L165,544 L172,568 L186,589 L228,643 L247,673 L252,677 L258,678 L300,681 M383,740 L422,755 L458,765 L470,770" fill="none" stroke="#f6fff9" stroke-opacity=".85" stroke-width="2.4" stroke-dasharray="1 5" stroke-linecap="round"></path>
+
+
+<path d="M429,413 L438,397 L447,413Z" fill="#fff4d6" fill-opacity=".9"></path>
+<path d="M756,632 L765,616 L774,632Z" fill="#fff4d6" fill-opacity=".9"></path>
+<g font-family="Rajdhani, sans-serif" font-weight="700" letter-spacing="1.5"><text x="452" y="386" font-size="13" fill="#fff4d6">PITON DES NEIGES</text><text x="452" y="400" font-size="12" fill="#fff4d6" fill-opacity=".75">3070 M</text><text x="705" y="663" font-size="13" fill="#ffd9c4">PITON DE LA FOURNAISE</text><text x="705" y="677" font-size="12" fill="#ffd9c4" fill-opacity=".75">2632 M</text></g>
+<g font-family="Rajdhani, sans-serif" font-weight="600" font-style="italic" font-size="13" letter-spacing="2" fill="#efe4c0" fill-opacity=".8"><text x="300" y="330">MAFATE</text><text x="478" y="352">SALAZIE</text><text x="352" y="484">CILAOS</text><text x="868" y="592" fill="#ffb08a">GRAND BRÛLÉ</text><text x="186" y="640" text-anchor="end" fill="#7ff0e2" font-style="normal" font-size="12">RÉSERVE MARINE</text><text x="92" y="440" text-anchor="end" fill="#f6fff9" font-size="12" font-style="normal">BARRIÈRE DE CORAIL</text></g>
+<g font-family="Rajdhani, sans-serif" font-weight="700" font-size="14" letter-spacing="1.5" fill="#f4f6fb" fill-opacity=".85">
+<circle cx="394" cy="76" r="3.2" fill="#f4f6fb"></circle><text x="387" y="60" text-anchor="middle">SAINT-DENIS</text>
+<circle cx="169" cy="166" r="3.2" fill="#f4f6fb"></circle><text x="151" y="158" text-anchor="end">LE PORT</text>
+<circle cx="141" cy="272" r="3.2" fill="#f4f6fb"></circle><text x="121" y="269" text-anchor="end">SAINT-PAUL</text>
+<circle cx="77" cy="332" r="3.2" fill="#f4f6fb"></circle><text x="56" y="332" text-anchor="end">SAINT-GILLES</text>
+<circle cx="169" cy="513" r="3.2" fill="#f4f6fb"></circle><text x="148" y="523" text-anchor="end">SAINT-LEU</text>
+<circle cx="268" cy="657" r="3.2" fill="#f4f6fb"></circle><text x="252" y="677" text-anchor="end">L'ÉTANG-SALÉ</text>
+<circle cx="338" cy="695" r="3.2" fill="#f4f6fb"></circle><text x="326" y="718" text-anchor="end">SAINT-LOUIS</text>
+<circle cx="437" cy="770" r="3.2" fill="#f4f6fb"></circle><text x="432" y="796" text-anchor="middle">SAINT-PIERRE</text>
+<circle cx="486" cy="680" r="3.2" fill="#f4f6fb"></circle><text x="483" y="707" text-anchor="middle">LE TAMPON</text>
+<circle cx="634" cy="831" r="3.2" fill="#f4f6fb"></circle><text x="640" y="857" text-anchor="middle">SAINT-JOSEPH</text>
+<circle cx="845" cy="800" r="3.2" fill="#f4f6fb"></circle><text x="860" y="822" text-anchor="start">SAINT-PHILIPPE</text>
+<circle cx="880" cy="453" r="3.2" fill="#f4f6fb"></circle><text x="902" y="459" text-anchor="start">SAINTE-ROSE</text>
+<circle cx="760" cy="310" r="3.2" fill="#f4f6fb"></circle><text x="780" y="305" text-anchor="start">SAINT-BENOÎT</text>
+<circle cx="683" cy="196" r="3.2" fill="#f4f6fb"></circle><text x="696" y="183" text-anchor="start">SAINT-ANDRÉ</text>
+<circle cx="535" cy="98" r="3.2" fill="#f4f6fb"></circle><text x="536" y="81" text-anchor="middle">SAINTE-MARIE</text>
+</g>
+<g transform="translate(-60,-40)" aria-hidden="true"><circle r="40" fill="rgba(7,11,23,.75)" stroke="#f4f6fb" stroke-opacity=".35" stroke-width="1.5"></circle><circle r="30" fill="none" stroke="#f4f6fb" stroke-opacity=".15"></circle><path d="M0,-32 L7,0 L0,6 L-7,0Z" fill="var(--accent)"></path><path d="M0,32 L7,0 L0,-6 L-7,0Z" fill="#f4f6fb" fill-opacity=".6"></path><text y="-48" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="700" font-size="16" fill="#f4f6fb">N</text></g>
+<g transform="translate(820,960)" font-family="Rajdhani, sans-serif" font-weight="700" font-size="13" fill="#f4f6fb"><path d="M0,0 L136,0" stroke="#f4f6fb" stroke-width="3"></path><path d="M0,-6 L0,6 M68,-4 L68,4 M136,-6 L136,6" stroke="#f4f6fb" stroke-width="2"></path><text x="146" y="5">10 KM</text></g>
+<g id="mission-layer"></g></svg>
+          <div id="markers"></div>
+          <div class="mission-tag" id="mission-tag" hidden></div>
+        </div>
+        <div class="legend">
+          <span><i style="--c: var(--photo)"></i>Spot photo</span>
+          <span><i style="--c: var(--van)"></i>Spot van</span>
+          <span><i style="--c: var(--bivouac)"></i>Bivouac</span>
+          <span><i style="--c: var(--rando)"></i>Rando</span>
+          <span><i class="dash"></i>Mission affichée</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="missions">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" style="color: var(--van)">Road trips</span>
+          <h2><span class="skew">Choisis ta mission</span></h2>
+        </div>
+        <p>Des itinéraires qui relient les meilleurs spots de l'île. Durées et distances indicatives.</p>
+      </div>
+      <div class="missions" id="missions-list"></div>
+    </div>
+  </section>
+
+  <section class="van" id="van">
+    <div class="wrap">
+      <div class="van-media" id="van-media"></div>
+      <div class="van-text">
+        <span class="eyebrow">Véhicule débloquable</span>
+        <h2><span class="skew" id="van-name">Don Pablo</span></h2>
+        <p id="van-pitch"></p>
+        <div class="van-kpis">
+          <div><small>Couchages</small><b id="van-beds">–</b></div>
+          <div><small>Équipement</small><b id="van-equipment">–</b></div>
+          <div><small>Prix / jour</small><b id="van-price">–</b></div>
+        </div>
+        <div class="row">
+          <a class="btn" id="van-cta" href="#missions">Bientôt à la location</a>
+          <a class="btn-ghost" href="#missions">Voir les missions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">REEF<span>974</span></span>
+    <span>Photos sous-marines et road trips à La Réunion · L'Étang-Salé</span>
+    <a data-instagram href="https://www.instagram.com/reef974">Instagram <span data-ig-name>@reef974</span></a>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
+  <div class="lb-head">
+    <h2 id="lb-title"></h2>
+    <button type="button" class="btn-ghost" id="lb-close" aria-label="Fermer">Fermer</button>
+  </div>
+  <div id="lb-body"></div>
+</dialog>
+
+<script src="js/app.js"></script>
+</body>
+</html>
