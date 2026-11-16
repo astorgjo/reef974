@@ -205,3 +205,9 @@ dialog.lightbox.single { width: auto; max-width: 96vw; max-height: 96vh; }
 .lb-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .lb-open .play { position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%; background: rgba(7,11,23,.7); border: 2px solid #fff; }
 .lb-open .play::after { content: ""; position: absolute; left: 21px; top: 15px; border-left: 16px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+.lb-info { padding: 14px 22px 20px; display: flex; flex-direction: column; gap: 10px; }
+.lb-info dl { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.lb-info dl div { display: flex; gap: 8px; align-items: baseline; }
+.lb-info dt { font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+.lb-info dd { margin: 0; font-size: 15px; font-weight: 600; color: var(--text); }
+.lb-info p { margin: 0; max-width: 70ch; font-size: 15px; line-height: 1.55; color: var(--soft); }

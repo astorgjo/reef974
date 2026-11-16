@@ -56,6 +56,9 @@ content:
           - name: species
             label: Espèce
             type: string
+          - name: place
+            label: Lieu (si vide, le nom du spot)
+            type: string
           - name: date
             label: Date
             type: date
@@ -63,7 +66,7 @@ content:
             label: Profondeur (m)
             type: number
           - name: caption
-            label: Légende
+            label: Description
             type: text
           - name: lat
             label: Latitude du point photo (facultatif, se règle avec l'outil Placer)

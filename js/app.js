@@ -172,14 +172,23 @@ function openViewer(s, p) {
   const dlg = $('#lightbox');
   dlg.classList.add('single');
   $('#lb-title').textContent = p.species || s.name;
-  const meta = [s.name, p.date, p.depth ? p.depth + ' m' : ''].filter(Boolean).map(esc).join(' · ');
+  const fmtDate = (d) => { try { return new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return d; } };
+  const rows = [
+    ['Espèce', p.species],
+    ['Lieu', p.place || s.name],
+    ['Date', p.date ? fmtDate(p.date) : ''],
+    ['Profondeur', p.depth ? p.depth + ' m' : '']
+  ].filter(([, v]) => v);
   $('#lb-body').innerHTML = `
     <div class="lb-single">
       ${p.video
         ? `<video src="${esc(p.video)}" ${p.image ? `poster="${esc(p.image)}"` : ''} controls autoplay muted playsinline loop aria-label="Vidéo : ${esc(p.species || s.name)}"></video>`
         : `<img src="${esc(p.image)}" alt="${esc(p.species || s.name)}">`}
     </div>
-    <p class="lb-caption"><span>${meta}</span>${p.caption ? `<br>${esc(p.caption)}` : ''}</p>`;
+    <div class="lb-info">
+      <dl>${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+      ${p.caption ? `<p>${esc(p.caption)}</p>` : ''}
+    </div>`;
   if (!dlg.open) dlg.showModal();
 }
 

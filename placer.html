@@ -16,6 +16,9 @@
   .panel { width: 380px; flex: 0 0 380px; overflow: auto; background: #0a1022; border-right: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
   .panel h1 { font-size: 30px; }
   .panel label { font-family: var(--hud); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+  .photo-form { display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 12px; border: 1px solid rgba(30,227,207,.35); background: rgba(30,227,207,.05); }
+  .photo-form[hidden] { display: none; }
+  .panel textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: #0d1730; color: var(--text); font: 500 15px/1.45 "Inter", sans-serif; resize: vertical; }
   .panel select, .panel input { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: #0d1730; color: var(--text); font: 500 15px "Inter", sans-serif; }
   .items { display: flex; flex-direction: column; gap: 8px; }
   .item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.03); color: var(--text); text-align: left; cursor: pointer; font: 500 14px "Inter", sans-serif; }
@@ -43,13 +46,19 @@
   <aside class="panel">
     <a class="logo" href="./">REEF<span>974</span></a>
     <h1>Placer les points</h1>
-    <p class="help">Choisis un spot, puis l'élément à placer (le spot lui-même ou une de ses photos). Clique sur la carte à l'endroit exact : le point se pose, tu peux le faire glisser pour ajuster. Quand tout est bon, clique sur « Enregistrer ».</p>
+    <p class="help">Choisis un spot, puis l'élément à placer (le spot lui-même ou une de ses photos). Clique sur la carte à l'endroit exact : le point se pose, tu peux le faire glisser pour ajuster. Pour une photo, remplis aussi l'espèce, le lieu et la description. Quand tout est bon, clique sur « Enregistrer ».</p>
 
     <div>
       <label for="spot-select">Spot</label>
       <select id="spot-select"></select>
     </div>
     <div class="items" id="items" role="group" aria-label="Élément à placer"></div>
+
+    <form class="photo-form" id="photo-form" hidden>
+      <div><label for="f-species">Espèce</label><input id="f-species" type="text" placeholder="ex. Raie aigle"></div>
+      <div><label for="f-place">Lieu</label><input id="f-place" type="text" placeholder="ex. Bassin Pirogue, côté récif"></div>
+      <div><label for="f-caption">Description</label><textarea id="f-caption" rows="3" placeholder="Une petite phrase sur la photo…"></textarea></div>
+    </form>
 
     <button type="button" class="btn" id="save">Enregistrer sur le site</button>
     <div class="status" id="status" role="status">Aucune modification pour l'instant.</div>

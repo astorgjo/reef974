@@ -64,8 +64,29 @@ function renderItems() {
     row(-1, '<span class="ico" aria-hidden="true">📍</span>', 'Le spot lui-même', 'Position du repère principal', true) +
     photos.map((p, i) => row(i, p.image ? `<img src="${esc(p.image)}" alt="">` : '<span class="ico"></span>',
       (p.video ? 'Vidéo · ' : '') + (p.species || 'Photo ' + (i + 1)), p.date || '', typeof p.lat === 'number')).join('');
-  document.querySelectorAll('.item').forEach((b) => b.addEventListener('click', () => { itemIdx = Number(b.dataset.i); renderItems(); renderPins(true); }));
+  document.querySelectorAll('.item').forEach((b) => b.addEventListener('click', () => { itemIdx = Number(b.dataset.i); renderItems(); renderForm(); renderPins(true); }));
 }
+
+const FIELDS = { species: '#f-species', place: '#f-place', caption: '#f-caption' };
+function renderForm() {
+  const form = $('#photo-form');
+  form.hidden = itemIdx < 0;
+  if (itemIdx < 0) return;
+  const p = current();
+  Object.entries(FIELDS).forEach(([k, sel]) => { $(sel).value = p[k] || ''; });
+  $('#f-place').placeholder = spots[spotIdx].name;
+}
+Object.entries(FIELDS).forEach(([k, sel]) => $(sel).addEventListener('input', (e) => {
+  if (itemIdx < 0) return;
+  const p = current();
+  p[k] = e.target.value;
+  changed = true;
+  status('Description modifiée. Pense à enregistrer.');
+  if (k === 'species') {
+    const title = document.querySelector(`.item[data-i="${itemIdx}"] > span:not(.pos):not(.ico)`);
+    if (title && title.firstChild) title.firstChild.nodeValue = (p.video ? 'Vidéo · ' : '') + (p.species || 'Photo ' + (itemIdx + 1));
+  }
+}));
 
 function renderPins(fly) {
   ghosts.forEach((g) => g.remove());
@@ -101,7 +122,7 @@ function setPos(ll) {
 
 map.on('click', (e) => setPos(e.lngLat));
 
-$('#spot-select').addEventListener('change', (e) => { spotIdx = Number(e.target.value); itemIdx = -1; renderItems(); renderPins(true); });
+$('#spot-select').addEventListener('change', (e) => { spotIdx = Number(e.target.value); itemIdx = -1; renderItems(); renderForm(); renderPins(true); });
 
 window.addEventListener('beforeunload', (e) => { if (changed) { e.preventDefault(); e.returnValue = ''; } });
 
@@ -132,7 +153,12 @@ async function save() {
       t.lat = s.lat; t.lon = s.lon;
       (s.photos || []).forEach((p) => {
         const tp = (t.photos || []).find((x) => (x.image || '') === (p.image || '') && (x.video || '') === (p.video || ''));
-        if (tp && typeof p.lat === 'number') { tp.lat = p.lat; tp.lon = p.lon; }
+        if (!tp) return;
+        if (typeof p.lat === 'number') { tp.lat = p.lat; tp.lon = p.lon; }
+        ['species', 'place', 'caption'].forEach((k) => {
+          const v = (p[k] || '').trim();
+          if (v) tp[k] = v; else delete tp[k];
+        });
       });
     });
     const body = JSON.stringify(latest, null, 2) + '\n';
@@ -144,6 +170,7 @@ async function save() {
     changed = false;
     spots = latest;
     status('Enregistré ✔ Le site se met à jour dans une minute environ.', 'ok');
+    renderItems(); renderForm();
   } catch (err) {
     status('Échec : ' + err.message + '. Vérifie ton jeton (accès au repo reef974, Contents : Read and write).', 'err');
   }
