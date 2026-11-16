@@ -32,16 +32,17 @@ function initMap() {
     sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagerie © Esri, Maxar, Earthstar Geographics'
     }),
-    dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19, subdomains: 'abcd', attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>'
+    dark: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19, maxNativeZoom: 16, attribution: 'Fond © Esri, HERE, Garmin, © OpenStreetMap'
     })
   };
-  const labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd', pane: 'overlayPane', opacity: .9 });
+  const labels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 18, pane: 'overlayPane', opacity: .85 });
+  const darkLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 16, pane: 'overlayPane' });
   let current = null;
   const setBase = (k) => {
     if (current) map.removeLayer(bases[current]);
     current = k; bases[k].addTo(map);
-    if (k === 'sat') labels.addTo(map); else map.removeLayer(labels);
+    if (k === 'sat') { labels.addTo(map); map.removeLayer(darkLabels); } else { darkLabels.addTo(map); map.removeLayer(labels); }
     const el = document.getElementById('map');
     el.classList.toggle('sat-base', k === 'sat'); el.classList.toggle('dark-base', k === 'dark');
     document.querySelectorAll('.layer-btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layer === k)));
